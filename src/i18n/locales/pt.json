@@ -1,59 +1,86 @@
 {
   "app": {
-    "title": "",
-    "subtitle": ""
+    "title": "Simulador de Cálculos Hidráulicos",
+    "subtitle": "Redes de Esgoto - Sistema Condominial"
   },
   "parameters": {
-    "title": "",
-    "description": "",
+    "title": "Parâmetros de Entrada",
+    "description": "Configure os parâmetros para o cálculo hidráulico",
     "consumption": {
-      "title": "",
-      "perCapita": "",
-      "occupancyRate": "",
-      "returnCoefficient": "",
-      "k1": "",
-      "k2": "",
-      "residences": ""
+      "title": "Parâmetros de Consumo",
+      "perCapita": "Consumo per capita (l/hab/dia)",
+      "occupancyRate": "Taxa de ocupação (hab/casa)",
+      "returnCoefficient": "Coeficiente de retorno (C)",
+      "k1": "K1 (máx. diário)",
+      "k2": "K2 (máx. horário)",
+      "residences": "Quantidade de residências"
     },
     "hydraulic": {
-      "title": "",
-      "diameter": "",
-      "slope": "",
-      "manning": ""
+      "title": "Informações do Trecho",
+      "diameter": "Diâmetro (mm)",
+      "slope": "Declividade (m/m)",
+      "manning": "Coef. Manning (n)"
     },
     "verification": {
-      "title": "",
-      "maxDepth": "",
-      "minTractive": "",
-      "minFlow": ""
+      "title": "Critérios de Verificação",
+      "maxDepth": "Lâmina máxima (%)",
+      "minTractive": "Força trativa mín. (Pa)",
+      "minFlow": "Vazão mínima (l/s)"
     }
   },
   "results": {
-    "title": "",
-    "description": "",
+    "title": "Resultados dos Cálculos",
+    "description": "Valores calculados baseados nos parâmetros informados",
     "flows": {
-      "title": "",
-      "estimated": "",
-      "considered": ""
+      "title": "Vazões",
+      "estimated": "Vazão calculada:",
+      "considered": "Vazão considerada:"
     },
     "geometric": {
-      "title": "",
-      "area": "",
-      "perimeter": "",
-      "radius": "",
-      "height": ""
+      "title": "Elementos Geométricos",
+      "area": "Área hidráulica:",
+      "perimeter": "Perímetro molhado:",
+      "radius": "Raio hidráulico:",
+      "height": "Altura molhada:"
     },
     "verification": {
-      "title": "",
-      "depth": "",
-      "tractive": "",
-      "velocity": ""
+      "title": "Verificações Hidráulicas",
+      "depth": "Lâmina líquida:",
+      "tractive": "Força trativa:",
+      "velocity": "Velocidade:"
     },
     "technical": {
-      "title": "",
-      "angle": "",
-      "diameter": "",
-      "slope": ""
+      "title": "Parâmetros Técnicos",
+      "angle": "Ângulo θ:",
+      "diameter": "Diâmetro:",
+      "slope": "Declividade:"
     }
+  },
+  "visualization": {
+    "section": {
+      "title": "Seção da Tubulação",
+      "description": "Visualização da área molhada"
+    },
+    "profile": {
+      "title": "Perfil da Rede",
+      "description": "Vista longitudinal com declividade",
+      "ground": "Superfície do terreno",
+      "flow": "Fluxo",
+      "depthLabel": "Lâmina:",
+      "slopeLabel": "Declividade:",
+      "lengthLabel": "L =",
+      "scaleNote": "(escala aproximada)"
+    }
+  },
+  "status": {
+    "title": "Condições de escoamento",
+    "ok": "Sistema OK",
+    "problem": "Problema nas condições de escoamento"
+  },
+  "language": {
+    "label": "Idioma",
+    "pt": "Português",
+    "en": "English",
+    "es": "Español"
   }
 }
