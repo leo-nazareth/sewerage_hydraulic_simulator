@@ -1,59 +1,86 @@
 {
   "app": {
-    "title": "",
-    "subtitle": ""
+    "title": "Hydraulic Calculations Simulator",
+    "subtitle": "Sewer Networks - Condominial System"
   },
   "parameters": {
-    "title": "",
-    "description": "",
+    "title": "Input Parameters",
+    "description": "Configure parameters for hydraulic calculation",
     "consumption": {
-      "title": "",
-      "perCapita": "",
-      "occupancyRate": "",
-      "returnCoefficient": "",
-      "k1": "",
-      "k2": "",
-      "residences": ""
+      "title": "Consumption Parameters",
+      "perCapita": "Per capita consumption (l/cap/day)",
+      "occupancyRate": "Occupancy rate (cap/house)",
+      "returnCoefficient": "Return coefficient (C)",
+      "k1": "K1 (max. daily)",
+      "k2": "K2 (max. hourly)",
+      "residences": "Number of residences"
     },
     "hydraulic": {
-      "title": "",
-      "diameter": "",
-      "slope": "",
-      "manning": ""
+      "title": "Segment Information",
+      "diameter": "Diameter (mm)",
+      "slope": "Slope (m/m)",
+      "manning": "Manning coef. (n)"
     },
     "verification": {
-      "title": "",
-      "maxDepth": "",
-      "minTractive": "",
-      "minFlow": ""
+      "title": "Verification Criteria",
+      "maxDepth": "Maximum depth (%)",
+      "minTractive": "Min. tractive force (Pa)",
+      "minFlow": "Minimum flow rate (l/s)"
     }
   },
   "results": {
-    "title": "",
-    "description": "",
+    "title": "Calculation Results",
+    "description": "Values calculated based on input parameters",
     "flows": {
-      "title": "",
-      "estimated": "",
-      "considered": ""
+      "title": "Flow Rates",
+      "estimated": "Estimated flow rate:",
+      "considered": "Design flow rate:"
     },
     "geometric": {
-      "title": "",
-      "area": "",
-      "perimeter": "",
-      "radius": "",
-      "height": ""
+      "title": "Geometric Elements",
+      "area": "Hydraulic area:",
+      "perimeter": "Wetted perimeter:",
+      "radius": "Hydraulic radius:",
+      "height": "Wetted height:"
     },
     "verification": {
-      "title": "",
-      "depth": "",
-      "tractive": "",
-      "velocity": ""
+      "title": "Hydraulic Verification",
+      "depth": "Flow depth:",
+      "tractive": "Tractive force:",
+      "velocity": "Velocity:"
     },
     "technical": {
-      "title": "",
-      "angle": "",
-      "diameter": "",
-      "slope": ""
+      "title": "Technical Parameters",
+      "angle": "Angle θ:",
+      "diameter": "Diameter:",
+      "slope": "Slope:"
     }
+  },
+  "visualization": {
+    "section": {
+      "title": "Pipe Cross-Section",
+      "description": "Wetted area visualization"
+    },
+    "profile": {
+      "title": "Network Profile",
+      "description": "Longitudinal view with slope",
+      "ground": "Ground surface",
+      "flow": "Flow",
+      "depthLabel": "Depth:",
+      "slopeLabel": "Slope:",
+      "lengthLabel": "L =",
+      "scaleNote": "(approximate scale)"
+    }
+  },
+  "status": {
+    "title": "Flow Conditions",
+    "ok": "System OK",
+    "problem": "Problem in flow conditions"
+  },
+  "language": {
+    "label": "Language",
+    "pt": "Português",
+    "en": "English",
+    "es": "Español"
   }
 }
