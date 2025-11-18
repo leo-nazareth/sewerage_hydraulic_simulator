@@ -47,10 +47,18 @@ function App() {
 
   // Função para atualizar parâmetros
   const atualizarParametro = (nome, valor) => {
+    // Se o valor está vazio, usar 0 para cálculos mas manter vazio no display
+    const numericValue = valor === '' ? 0 : parseFloat(valor)
     setParametros(prev => ({
       ...prev,
-      [nome]: parseFloat(valor) || 0
+      [nome]: isNaN(numericValue) ? 0 : numericValue
     }))
+  }
+
+  // Função para exibir valor no input (vazio se for 0 para campos inteiros)
+  const exibirValor = (valor, isDecimal = false) => {
+    if (valor === 0 && !isDecimal) return ''
+    return valor
   }
 
   // Função para obter cor do status
@@ -108,7 +116,7 @@ function App() {
                       <Input
                         id="consumoPerCapita"
                         type="number"
-                        value={parametros.consumoPerCapita}
+                        value={exibirValor(parametros.consumoPerCapita)}
                         onChange={(e) => atualizarParametro('consumoPerCapita', e.target.value)}
                         className="mt-1"
                       />
@@ -118,7 +126,7 @@ function App() {
                       <Input
                         id="taxaOcupacao"
                         type="number"
-                        value={parametros.taxaOcupacao}
+                        value={exibirValor(parametros.taxaOcupacao)}
                         onChange={(e) => atualizarParametro('taxaOcupacao', e.target.value)}
                         className="mt-1"
                       />
@@ -163,7 +171,7 @@ function App() {
                       <Input
                         id="qtdeResidencias"
                         type="number"
-                        value={parametros.qtdeResidencias}
+                        value={exibirValor(parametros.qtdeResidencias)}
                         onChange={(e) => atualizarParametro('qtdeResidencias', e.target.value)}
                         className="mt-1"
                       />
@@ -182,7 +190,7 @@ function App() {
                       <Input
                         id="diametro"
                         type="number"
-                        value={parametros.diametro}
+                        value={exibirValor(parametros.diametro)}
                         onChange={(e) => atualizarParametro('diametro', e.target.value)}
                         className="mt-1"
                       />

@@ -163,7 +163,7 @@ const VisualizacaoSecaoTubulacao = ({ resultados, parametros }) => {
             {alturaAguaRelativa > 0 && (
               <g>
                 <text
-                  x={center + radius + 20}
+                  x={center + 10}
                   y={(center + radius + superficieY) / 2}
                   textAnchor="start"
                   className={`text-sm font-medium ${laminaExcedeCriterio ? 'fill-red-600' : 'fill-blue-600'}`}

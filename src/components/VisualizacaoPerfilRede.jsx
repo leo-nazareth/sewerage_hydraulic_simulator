@@ -124,22 +124,24 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
               />
             )}
             
-            {/* Setas indicando fluxo */}
+            {/* Seta indicando direção do fluxo */}
             {statusFluxo === 'normal' && (
-              <>
-                <polygon
-                  points={`${startX + 70},${startY + tuboHeight/2 - 5} ${startX + 80},${startY + tuboHeight/2} ${startX + 70},${startY + tuboHeight/2 + 5}`}
-                  fill="#10B981"
+              <g>
+                {/* Corpo da seta */}
+                <line
+                  x1={startX + 100}
+                  y1={(startY + endY) / 2 + tuboHeight / 2}
+                  x2={startX + 180}
+                  y2={(startY + endY) / 2 + tuboHeight / 2}
+                  stroke="#000000"
+                  strokeWidth="3"
                 />
+                {/* Cabeça da seta */}
                 <polygon
-                  points={`${startX + 130},${(startY + endY)/2 + tuboHeight/2 - 5} ${startX + 140},${(startY + endY)/2 + tuboHeight/2} ${startX + 130},${(startY + endY)/2 + tuboHeight/2 + 5}`}
-                  fill="#10B981"
+                  points={`${startX + 180},${(startY + endY) / 2 + tuboHeight / 2 - 6} ${startX + 192},${(startY + endY) / 2 + tuboHeight / 2} ${startX + 180},${(startY + endY) / 2 + tuboHeight / 2 + 6}`}
+                  fill="#000000"
                 />
-                <polygon
-                  points={`${startX + 190},${endY + tuboHeight/2 - 5} ${startX + 200},${endY + tuboHeight/2} ${startX + 190},${endY + tuboHeight/2 + 5}`}
-                  fill="#10B981"
-                />
-              </>
+              </g>
             )}
             
             {/* Partículas de sedimento (se força trativa insuficiente) */}
@@ -248,13 +250,13 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
               } bg-opacity-70`}></div>
               <span>{t('visualization.profile.wastewater')}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 bg-gray-700 rounded"></div>
-              <span>{t('visualization.profile.pipe')}</span>
-            </div>
             {statusFluxo === 'normal' ? (
               <div className="flex items-center gap-2">
-                <div className="w-0 h-0 border-l-4 border-r-4 border-b-4 border-l-transparent border-r-transparent border-b-green-500"></div>
+                {/* Seta preta com corpo */}
+                <svg width="20" height="12" viewBox="0 0 20 12">
+                  <line x1="0" y1="6" x2="14" y2="6" stroke="#000000" strokeWidth="2" />
+                  <polygon points="14,3 20,6 14,9" fill="#000000" />
+                </svg>
                 <span>{t('visualization.profile.flowDirection')}</span>
               </div>
             ) : (
@@ -263,10 +265,6 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
                 <span>{t('visualization.profile.sediments')}</span>
               </div>
             )}
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-1 bg-purple-600" style={{borderStyle: 'dashed'}}></div>
-              <span>{t('visualization.profile.reference')}</span>
-            </div>
           </div>
         </div>
         
