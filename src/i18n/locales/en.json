@@ -59,17 +59,37 @@
   "visualization": {
     "section": {
       "title": "Pipe Cross-Section",
-      "description": "Wetted area visualization"
+      "description": "Wetted area visualization",
+      "wettedArea": "Wetted area",
+      "waterSurface": "Water surface",
+      "diameter": "Diameter",
+      "wettedHeight": "Wetted height (y)",
+      "depthLabel": "Depth:",
+      "exceedsCriteria": "Exceeds criteria!"
     },
     "profile": {
       "title": "Network Profile",
       "description": "Longitudinal view with slope",
       "ground": "Ground surface",
       "flow": "Flow",
-      "depthLabel": "Depth:",
+      "depthLabel": "Depth",
       "slopeLabel": "Slope:",
       "lengthLabel": "L =",
-      "scaleNote": "(approximate scale)"
+      "scaleNote": "(approximate scale)",
+      "exaggeratedScale": "exaggerated scale",
+      "referenceLevel": "Reference level",
+      "normalFlow": "Normal Flow - Self-cleaning OK",
+      "sedimentationRisk": "Sedimentation Risk",
+      "wastewater": "Wastewater",
+      "pipe": "Pipe",
+      "flowDirection": "Flow direction",
+      "sediments": "Sediments",
+      "reference": "Reference",
+      "tractiveForce": "Tractive force",
+      "minimum": "Minimum",
+      "velocity": "Velocity",
+      "warning": "Warning",
+      "warningMessage": "Insufficient tractive force may cause sediment accumulation and network obstruction."
     }
   },
   "status": {

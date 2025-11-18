@@ -59,17 +59,37 @@
   "visualization": {
     "section": {
       "title": "Sección de la Tubería",
-      "description": "Visualización del área mojada"
+      "description": "Visualización del área mojada",
+      "wettedArea": "Área mojada",
+      "waterSurface": "Superficie del agua",
+      "diameter": "Diámetro",
+      "wettedHeight": "Altura mojada (y)",
+      "depthLabel": "Tirante:",
+      "exceedsCriteria": "¡Excede criterio!"
     },
     "profile": {
       "title": "Perfil de la Red",
       "description": "Vista longitudinal con pendiente",
       "ground": "Superficie del terreno",
       "flow": "Flujo",
-      "depthLabel": "Tirante:",
+      "depthLabel": "Tirante",
       "slopeLabel": "Pendiente:",
       "lengthLabel": "L =",
-      "scaleNote": "(escala aproximada)"
+      "scaleNote": "(escala aproximada)",
+      "exaggeratedScale": "escala exagerada",
+      "referenceLevel": "Nivel de referencia",
+      "normalFlow": "Flujo Normal - Autolimpieza OK",
+      "sedimentationRisk": "Riesgo de Sedimentación",
+      "wastewater": "Aguas residuales",
+      "pipe": "Tubería",
+      "flowDirection": "Dirección del flujo",
+      "sediments": "Sedimentos",
+      "reference": "Referencia",
+      "tractiveForce": "Fuerza tractiva",
+      "minimum": "Mínimo",
+      "velocity": "Velocidad",
+      "warning": "Atención",
+      "warningMessage": "Fuerza tractiva insuficiente puede causar acumulación de sedimentos y obstrucción de la red."
     }
   },
   "status": {

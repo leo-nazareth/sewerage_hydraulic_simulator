@@ -1,72 +1,74 @@
+import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useLanguage } from "@/i18n/LanguageProvider";
 
 const VisualizacaoSecaoTubulacao = ({ resultados, parametros }) => {
   const { t } = useLanguage();
-  const diametro = parametros?.diametro || 150;
-  const lamina = resultados?.resultados?.laminaLiquida || 0;
-  const alturaMolhada = resultados?.resultados?.alturaMolhada * 1000 || 0; // em mm
-  const anguloTeta = resultados?.resultados?.anguloTeta || 0;
+  
+  if (!resultados) return null
 
-  const viewBoxSize = 200;
-  const center = viewBoxSize / 2;
-  const radius = viewBoxSize / 2 - 20; // More space for labels
-  const pipeThickness = 3;
+  const { laminaLiquida } = resultados.resultados
+  const { diametro, laminaMaxima } = parametros
 
+  // Configurações do SVG
+  const svgSize = 300
+  const center = svgSize / 2
+  const radius = 120
+  
+  // Verificar se lâmina excede critério
+  const laminaExcedeCriterio = laminaLiquida > laminaMaxima
+  
+  // Calcular a altura da água baseada na lâmina líquida
+  // A água preenche de baixo para cima
+  const alturaAguaRelativa = laminaLiquida // fração do diâmetro
+  
+  // Função para criar o path da área molhada (preenchimento de baixo para cima)
   const criarPathAreaMolhada = () => {
-    if (lamina <= 0) return "";
-    if (lamina >= 1) {
-      // Full pipe
-      return `M ${center - radius}, ${center} 
-              A ${radius},${radius} 0 1,0 ${center + radius},${center} 
-              A ${radius},${radius} 0 1,0 ${center - radius},${center}`;
+    if (alturaAguaRelativa <= 0) return ""
+    if (alturaAguaRelativa >= 1) {
+      // Tubulação completamente cheia
+      return `M ${center} ${center} m -${radius} 0 a ${radius} ${radius} 0 1 1 ${radius * 2} 0 a ${radius} ${radius} 0 1 1 -${radius * 2} 0`
     }
     
-    // Calculate the height of water from bottom of pipe
-    const waterHeight = lamina * (radius * 2);
-    // Y coordinate of water surface (from top of viewBox)
-    const waterSurfaceY = center + radius - waterHeight;
+    // Calcular a altura da água em pixels
+    const alturaAguaPixels = alturaAguaRelativa * (radius * 2)
+    const ySuperficie = center + radius - alturaAguaPixels
     
-    // Distance from center to water surface
-    const d = waterSurfaceY - center;
+    // Calcular os pontos onde a superfície da água intersecta o círculo
+    const h = radius - alturaAguaPixels // distância do centro até a superfície
+    const w = Math.sqrt(radius * radius - h * h) // meia largura da superfície
     
-    // Half-width of water surface using pythagorean theorem
-    const halfWidth = Math.sqrt(Math.max(0, radius * radius - d * d));
+    const x1 = center - w
+    const x2 = center + w
+    const y = ySuperficie
     
-    // Points where water surface intersects the circle
-    const x1 = center - halfWidth;
-    const x2 = center + halfWidth;
-    const y = waterSurfaceY;
+    // Criar o path: arco da parte inferior + linha reta da superfície
+    const largeArcFlag = alturaAguaRelativa > 0.5 ? 1 : 0
     
-    // Large arc flag: 1 if more than half circle (lamina > 0.5), 0 otherwise
-    const largeArcFlag = lamina > 0.5 ? 1 : 0;
-    
-    // Create path for wetted area (circular segment)
-    // Move to left intersection point, draw arc to right intersection point, close with line
-    return `M ${x1},${y} 
-            A ${radius},${radius} 0 ${largeArcFlag},1 ${x2},${y} 
-            Z`;
-  };
+    return `M ${x1} ${y} A ${radius} ${radius} 0 ${largeArcFlag} 0 ${x2} ${y} Z`
+  }
 
-  const pathAreaMolhada = criarPathAreaMolhada();
-  
+  // Calcular posição Y da superfície da água
   const calcularSuperficieAgua = () => {
-    if (lamina <= 0 || lamina >= 1) return { y: 0, width: 0 };
+    if (alturaAguaRelativa <= 0) return center + radius
+    if (alturaAguaRelativa >= 1) return center - radius
     
-    const waterHeight = lamina * (radius * 2);
-    const waterSurfaceY = center + radius - waterHeight;
-    const d = waterSurfaceY - center;
-    const halfWidth = Math.sqrt(Math.max(0, radius * radius - d * d));
-    
-    return { 
-      y: waterSurfaceY, 
-      width: halfWidth * 2,
-      x1: center - halfWidth,
-      x2: center + halfWidth
-    };
-  };
+    const alturaAguaPixels = alturaAguaRelativa * (radius * 2)
+    return center + radius - alturaAguaPixels
+  }
 
-  const superficie = calcularSuperficieAgua();
+  const superficieY = calcularSuperficieAgua()
+  
+  // Calcular largura da superfície da água
+  const calcularLarguraSuperficie = () => {
+    if (alturaAguaRelativa <= 0 || alturaAguaRelativa >= 1) return 0
+    
+    const h = radius - (alturaAguaRelativa * radius * 2)
+    const w = Math.sqrt(radius * radius - h * h)
+    return w * 2
+  }
+
+  const larguraSuperficie = calcularLarguraSuperficie()
 
   return (
     <Card>
@@ -75,116 +77,155 @@ const VisualizacaoSecaoTubulacao = ({ resultados, parametros }) => {
         <CardDescription>{t('visualization.section.description')}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="aspect-square w-full">
-          <svg viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`} className="w-full h-full">
-            {/* Tubo externo (outline) */}
-            <circle 
-              cx={center} 
-              cy={center} 
-              r={radius} 
-              fill="none" 
-              stroke="#6b7280" 
-              strokeWidth={pipeThickness} 
+        <div className="flex justify-center">
+          <svg width={svgSize} height={svgSize} className="border border-gray-200 rounded">
+            {/* Círculo da tubulação */}
+            <circle
+              cx={center}
+              cy={center}
+              r={radius}
+              fill="none"
+              stroke="#374151"
+              strokeWidth="3"
             />
             
-            {/* Área molhada (wetted area) */}
-            {lamina > 0 && (
-              <path 
-                d={pathAreaMolhada} 
-                fill="#3b82f6" 
-                fillOpacity="0.6" 
-                stroke="#2563eb"
+            {/* Área molhada (água) - preenchimento de baixo para cima */}
+            {alturaAguaRelativa > 0 && (
+              <path
+                d={criarPathAreaMolhada()}
+                fill="#3B82F6"
+                fillOpacity="0.6"
+                stroke="#1D4ED8"
                 strokeWidth="1"
               />
             )}
-
-            {/* Linha da superfície da água (horizontal) */}
-            {lamina > 0 && lamina < 1 && superficie.width > 0 && (
-              <line 
-                x1={superficie.x1} 
-                y1={superficie.y} 
-                x2={superficie.x2} 
-                y2={superficie.y} 
-                stroke="#0ea5e9"
+            
+            {/* Linha da superfície da água */}
+            {alturaAguaRelativa > 0 && alturaAguaRelativa < 1 && larguraSuperficie > 0 && (
+              <line
+                x1={center - larguraSuperficie / 2}
+                y1={superficieY}
+                x2={center + larguraSuperficie / 2}
+                y2={superficieY}
+                stroke="#1D4ED8"
                 strokeWidth="2"
-                strokeDasharray="3,2"
+                strokeDasharray="5,5"
               />
             )}
-
-            {/* Linha central vertical (diâmetro) */}
-            <line 
-              x1={center} 
-              y1={center - radius - 5} 
-              x2={center} 
-              y2={center + radius + 5} 
-              stroke="#374151" 
-              strokeWidth="1" 
-              strokeDasharray="4,2" 
+            
+            {/* Linha do diâmetro */}
+            <line
+              x1={center - radius}
+              y1={center}
+              x2={center + radius}
+              y2={center}
+              stroke="#6B7280"
+              strokeWidth="1"
+              strokeDasharray="3,3"
             />
             
-            {/* Cota do diâmetro */}
-            <text 
-              x={center + radius + 8} 
-              y={center} 
-              fontSize="10" 
-              fill="#374151"
-              textAnchor="start"
-              dominantBaseline="middle"
-            >
-              D = {diametro} mm
-            </text>
-            
-            {/* Altura molhada (y) - linha e cota */}
-            {lamina > 0 && (
-              <>
-                {/* Linha indicando altura molhada */}
-                <line 
-                  x1={center - radius - 10} 
-                  y1={center + radius} 
-                  x2={center - radius - 10} 
-                  y2={superficie.y} 
-                  stroke="#dc2626" 
-                  strokeWidth="1.5" 
-                />
-                
-                {/* Setas indicativas */}
-                <polygon 
-                  points={`${center - radius - 10},${center + radius} ${center - radius - 13},${center + radius - 3} ${center - radius - 7},${center + radius - 3}`}
-                  fill="#dc2626" 
-                />
-                <polygon 
-                  points={`${center - radius - 10},${superficie.y} ${center - radius - 13},${superficie.y + 3} ${center - radius - 7},${superficie.y + 3}`}
-                  fill="#dc2626" 
-                />
-                
-                {/* Texto da altura molhada */}
-                <text 
-                  x={center - radius - 15} 
-                  y={center + radius - (center + radius - superficie.y) / 2} 
-                  fontSize="9" 
-                  fill="#dc2626"
-                  textAnchor="end"
-                  dominantBaseline="middle"
-                >
-                  y = {alturaMolhada.toFixed(1)} mm
-                </text>
-              </>
+            {/* Linha da altura molhada */}
+            {alturaAguaRelativa > 0 && (
+              <line
+                x1={center}
+                y1={center + radius}
+                x2={center}
+                y2={superficieY}
+                stroke="#EF4444"
+                strokeWidth="2"
+              />
             )}
             
-            {/* Informações principais */}
-            <text x={10} y={15} fontSize="11" fontWeight="bold" fill="#1f2937">
-              y/D = {(lamina * 100).toFixed(1)}%
-            </text>
+            {/* Setas e dimensões */}
+            {/* Diâmetro */}
+            <g>
+              <text
+                x={center}
+                y={center - radius - 15}
+                textAnchor="middle"
+                className="text-sm font-medium fill-gray-700"
+              >
+                Ø {diametro} mm
+              </text>
+              <line
+                x1={center - radius - 10}
+                y1={center - radius - 5}
+                x2={center + radius + 10}
+                y2={center - radius - 5}
+                stroke="#374151"
+                strokeWidth="1"
+                markerEnd="url(#arrowhead)"
+                markerStart="url(#arrowhead)"
+              />
+            </g>
             
-            {/* Ângulo teta para referência */}
-            <text x={10} y={viewBoxSize - 10} fontSize="8" fill="#6b7280">
-              θ = {(anguloTeta * 180 / Math.PI).toFixed(1)}°
-            </text>
+            {/* Altura molhada */}
+            {alturaAguaRelativa > 0 && (
+              <g>
+                <text
+                  x={center + radius + 20}
+                  y={(center + radius + superficieY) / 2}
+                  textAnchor="start"
+                  className={`text-sm font-medium ${laminaExcedeCriterio ? 'fill-red-600' : 'fill-blue-600'}`}
+                >
+                  y
+                </text>
+              </g>
+            )}
+            
+            {/* Definir marcadores de seta */}
+            <defs>
+              <marker
+                id="arrowhead"
+                markerWidth="10"
+                markerHeight="7"
+                refX="9"
+                refY="3.5"
+                orient="auto"
+              >
+                <polygon
+                  points="0 0, 10 3.5, 0 7"
+                  fill="#374151"
+                />
+              </marker>
+            </defs>
           </svg>
+        </div>
+        
+        {/* Legenda */}
+        <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 bg-blue-500 bg-opacity-60 border border-blue-700 rounded"></div>
+            <span>{t('visualization.section.wettedArea')}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-1 bg-blue-700" style={{borderStyle: 'dashed'}}></div>
+            <span>{t('visualization.section.waterSurface')}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-1 bg-gray-500" style={{borderStyle: 'dashed'}}></div>
+            <span>{t('visualization.section.diameter')}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-1 bg-red-500"></div>
+            <span>{t('visualization.section.wettedHeight')}</span>
+          </div>
+        </div>
+        
+        {/* Informações simplificadas */}
+        <div className="mt-4 p-3 bg-gray-50 rounded text-sm">
+          <div className="flex justify-center">
+            <div className={`font-medium ${laminaExcedeCriterio ? 'text-red-600' : 'text-blue-600'}`}>
+              {t('visualization.section.depthLabel')} {(laminaLiquida * 100).toFixed(1)}%
+              {laminaExcedeCriterio && (
+                <span className="ml-2 text-red-600 font-bold">⚠ {t('visualization.section.exceedsCriteria')}</span>
+              )}
+            </div>
+          </div>
         </div>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default VisualizacaoSecaoTubulacao; 
+export default VisualizacaoSecaoTubulacao 

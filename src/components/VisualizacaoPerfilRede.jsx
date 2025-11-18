@@ -1,36 +1,42 @@
+import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useLanguage } from "@/i18n/LanguageProvider";
 
 const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
   const { t } = useLanguage();
-  const declividade = parametros?.declividade || 0.005;
-  const diametro = parametros?.diametro || 150;
-  const lamina = resultados?.resultados?.laminaLiquida || 0;
-  const alturaMolhada = resultados?.resultados?.alturaMolhada * 1000 || 0; // em mm
+  
+  if (!resultados) return null
 
-  const viewBoxWidth = 500;
-  const viewBoxHeight = 200;
-  const pipeLength = 400;
-  const startX = 50;
-  const endX = startX + pipeLength;
+  const { laminaLiquida, velocidade, forcaTraativa } = resultados.resultados
+  const { diametro, declividade, forcaTrativaMin } = parametros
+
+  // Configurações do SVG
+  const svgWidth = 400
+  const svgHeight = 200
+  const tuboLength = 300
+  const tuboHeight = 40
   
-  // Center the pipe vertically
-  const pipeCenterY = viewBoxHeight / 2;
+  // Exagerar a inclinação para melhor visualização (multiplicar por fator de escala)
+  const fatorEscalaDeclividade = 50 // Exagerar 50x para visualização
+  const inclinacaoVisual = declividade * tuboLength * fatorEscalaDeclividade
   
-  // Exaggerate slope for visibility (multiply by 1000)
-  const exaggeratedSlope = declividade * 1000;
-  const slopeRise = pipeLength * exaggeratedSlope;
+  // Limitar a inclinação visual para não sair da tela
+  const inclinacaoLimitada = Math.min(inclinacaoVisual, svgHeight * 0.3)
   
-  // Pipe dimensions in the visualization
-  const pipeRadius = Math.max(8, diametro / 20); // Proportional to actual diameter
+  // Posições do tubo
+  const startX = 50
+  const startY = svgHeight - 100
+  const endX = startX + tuboLength
+  const endY = startY - inclinacaoLimitada
   
-  // Start and end Y coordinates of pipe center
-  const startCenterY = pipeCenterY - slopeRise / 2;
-  const endCenterY = pipeCenterY + slopeRise / 2;
+  // Altura da água no tubo
+  const alturaAguaRelativa = laminaLiquida
+  const alturaAguaPixels = tuboHeight * alturaAguaRelativa
   
-  // Water height inside the pipe
-  const waterThickness = lamina * (pipeRadius * 2);
-  
+  // Determinar cor baseada na força trativa
+  const corAgua = forcaTraativa >= forcaTrativaMin ? '#3B82F6' : '#EF4444'
+  const statusFluxo = forcaTraativa >= forcaTrativaMin ? 'normal' : 'sedimentacao'
+
   return (
     <Card>
       <CardHeader>
@@ -38,216 +44,258 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
         <CardDescription>{t('visualization.profile.description')}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="aspect-video w-full">
-          <svg viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`} className="w-full h-full">
-            <defs>
-              {/* Gradient for pipe walls */}
-              <linearGradient id="pipeGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#9ca3af" />
-                <stop offset="50%" stopColor="#d1d5db" />
-                <stop offset="100%" stopColor="#9ca3af" />
-              </linearGradient>
-              
-              {/* Pattern for water flow */}
-              <pattern id="waterFlow" patternUnits="userSpaceOnUse" width="20" height="8">
-                <rect width="20" height="8" fill="#3b82f6" fillOpacity="0.3"/>
-                <path d="M0 4 Q5 2 10 4 T20 4" stroke="#1d4ed8" strokeWidth="1" fill="none" opacity="0.8"/>
-              </pattern>
-            </defs>
-
-            {/* Ground line */}
-            <line 
-              x1="0" 
-              y1={startCenterY - pipeRadius - 15} 
-              x2={viewBoxWidth} 
-              y2={endCenterY - pipeRadius - 15} 
-              stroke="#92400e" 
-              strokeWidth="2" 
+        <div className="flex justify-center">
+          <svg width={svgWidth} height={svgHeight} className="border border-gray-200 rounded">
+            {/* Linha do terreno/referência */}
+            <line
+              x1={0}
+              y1={svgHeight - 20}
+              x2={svgWidth}
+              y2={svgHeight - 20}
+              stroke="#8B5CF6"
+              strokeWidth="2"
               strokeDasharray="5,5"
             />
-            <text x="10" y={startCenterY - pipeRadius - 20} fontSize="10" fill="#92400e">
-              {t('visualization.profile.ground')}
-            </text>
-
-            {/* Pipe outline - top */}
-            <line 
-              x1={startX} 
-              y1={startCenterY - pipeRadius} 
-              x2={endX} 
-              y2={endCenterY - pipeRadius} 
-              stroke="#4b5563" 
-              strokeWidth="3" 
-              strokeLinecap="round"
+            
+            {/* Tubulação (contorno superior) */}
+            <line
+              x1={startX}
+              y1={startY}
+              x2={endX}
+              y2={endY}
+              stroke="#374151"
+              strokeWidth="3"
             />
             
-            {/* Pipe outline - bottom */}
-            <line 
-              x1={startX} 
-              y1={startCenterY + pipeRadius} 
-              x2={endX} 
-              y2={endCenterY + pipeRadius} 
-              stroke="#4b5563" 
-              strokeWidth="3" 
-              strokeLinecap="round"
+            {/* Tubulação (contorno inferior) */}
+            <line
+              x1={startX}
+              y1={startY + tuboHeight}
+              x2={endX}
+              y2={endY + tuboHeight}
+              stroke="#374151"
+              strokeWidth="3"
             />
-
-            {/* Water flow inside pipe */}
-            {lamina > 0 && (
+            
+            {/* Laterais da tubulação */}
+            <line
+              x1={startX}
+              y1={startY}
+              x2={startX}
+              y2={startY + tuboHeight}
+              stroke="#374151"
+              strokeWidth="3"
+            />
+            <line
+              x1={endX}
+              y1={endY}
+              x2={endX}
+              y2={endY + tuboHeight}
+              stroke="#374151"
+              strokeWidth="3"
+            />
+            
+            {/* Água/esgoto dentro da tubulação */}
+            {alturaAguaRelativa > 0 && (
+              <polygon
+                points={`
+                  ${startX},${startY + tuboHeight - alturaAguaPixels}
+                  ${endX},${endY + tuboHeight - alturaAguaPixels}
+                  ${endX},${endY + tuboHeight}
+                  ${startX},${startY + tuboHeight}
+                `}
+                fill={corAgua}
+                fillOpacity="0.7"
+                stroke={corAgua}
+                strokeWidth="1"
+              />
+            )}
+            
+            {/* Superfície da água */}
+            {alturaAguaRelativa > 0 && (
+              <line
+                x1={startX}
+                y1={startY + tuboHeight - alturaAguaPixels}
+                x2={endX}
+                y2={endY + tuboHeight - alturaAguaPixels}
+                stroke={corAgua}
+                strokeWidth="2"
+                strokeDasharray="3,3"
+              />
+            )}
+            
+            {/* Setas indicando fluxo */}
+            {statusFluxo === 'normal' && (
               <>
-                {/* Water area */}
-                <polygon 
-                  points={`${startX},${startCenterY + pipeRadius} 
-                           ${endX},${endCenterY + pipeRadius} 
-                           ${endX},${endCenterY + pipeRadius - waterThickness} 
-                           ${startX},${startCenterY + pipeRadius - waterThickness}`}
-                  fill="url(#waterFlow)"
-                  stroke="#2563eb"
-                  strokeWidth="1"
+                <polygon
+                  points={`${startX + 70},${startY + tuboHeight/2 - 5} ${startX + 80},${startY + tuboHeight/2} ${startX + 70},${startY + tuboHeight/2 + 5}`}
+                  fill="#10B981"
                 />
-                
-                {/* Water surface line */}
-                <line 
-                  x1={startX} 
-                  y1={startCenterY + pipeRadius - waterThickness} 
-                  x2={endX} 
-                  y2={endCenterY + pipeRadius - waterThickness} 
-                  stroke="#0ea5e9" 
-                  strokeWidth="2" 
-                  strokeDasharray="4,2"
+                <polygon
+                  points={`${startX + 130},${(startY + endY)/2 + tuboHeight/2 - 5} ${startX + 140},${(startY + endY)/2 + tuboHeight/2} ${startX + 130},${(startY + endY)/2 + tuboHeight/2 + 5}`}
+                  fill="#10B981"
+                />
+                <polygon
+                  points={`${startX + 190},${endY + tuboHeight/2 - 5} ${startX + 200},${endY + tuboHeight/2} ${startX + 190},${endY + tuboHeight/2 + 5}`}
+                  fill="#10B981"
                 />
               </>
             )}
-
-            {/* Pipe center line (hydraulic gradient) */}
-            <line 
-              x1={startX} 
-              y1={startCenterY} 
-              x2={endX} 
-              y2={endCenterY} 
-              stroke="#6b7280" 
-              strokeWidth="1" 
-              strokeDasharray="3,3"
-            />
-
-            {/* Dimension lines and labels */}
             
-            {/* Slope indicator */}
-            <g>
-              {/* Slope triangle */}
-              <polygon 
-                points={`${endX - 80},${endCenterY} ${endX - 80},${startCenterY} ${endX - 20},${endCenterY}`}
-                fill="none" 
-                stroke="#7c2d12" 
-                strokeWidth="1.5"
-              />
-              <text 
-                x={endX - 50} 
-                y={endCenterY - 5} 
-                fontSize="9" 
-                fill="#7c2d12" 
-                textAnchor="middle"
-              >
-                i = {(declividade * 100).toFixed(2)}%
-              </text>
-            </g>
-
-            {/* Diameter indicator */}
-            <g>
-              <line 
-                x1={startX - 15} 
-                y1={startCenterY - pipeRadius} 
-                x2={startX - 15} 
-                y2={startCenterY + pipeRadius} 
-                stroke="#374151" 
-                strokeWidth="1.5"
-              />
-              <polygon 
-                points={`${startX - 15},${startCenterY - pipeRadius} ${startX - 18},${startCenterY - pipeRadius + 3} ${startX - 12},${startCenterY - pipeRadius + 3}`}
-                fill="#374151" 
-              />
-              <polygon 
-                points={`${startX - 15},${startCenterY + pipeRadius} ${startX - 18},${startCenterY + pipeRadius - 3} ${startX - 12},${startCenterY + pipeRadius - 3}`}
-                fill="#374151" 
-              />
-              <text 
-                x={startX - 25} 
-                y={startCenterY} 
-                fontSize="9" 
-                fill="#374151" 
-                textAnchor="end" 
-                dominantBaseline="middle" 
-                transform={`rotate(-90, ${startX - 25}, ${startCenterY})`}
-              >
-                D = {diametro} mm
-              </text>
-            </g>
-
-            {/* Water height indicator */}
-            {lamina > 0 && (
-              <g>
-                <line 
-                  x1={endX + 10} 
-                  y1={endCenterY + pipeRadius} 
-                  x2={endX + 10} 
-                  y2={endCenterY + pipeRadius - waterThickness} 
-                  stroke="#dc2626" 
-                  strokeWidth="1.5"
-                />
-                <polygon 
-                  points={`${endX + 10},${endCenterY + pipeRadius} ${endX + 7},${endCenterY + pipeRadius - 3} ${endX + 13},${endCenterY + pipeRadius - 3}`}
-                  fill="#dc2626" 
-                />
-                <polygon 
-                  points={`${endX + 10},${endCenterY + pipeRadius - waterThickness} ${endX + 7},${endCenterY + pipeRadius - waterThickness + 3} ${endX + 13},${endCenterY + pipeRadius - waterThickness + 3}`}
-                  fill="#dc2626" 
-                />
-                <text 
-                  x={endX + 20} 
-                  y={endCenterY + pipeRadius - waterThickness/2} 
-                  fontSize="9" 
-                  fill="#dc2626" 
-                  textAnchor="start" 
-                  dominantBaseline="middle"
-                >
-                  y = {alturaMolhada.toFixed(1)} mm
-                </text>
-              </g>
+            {/* Partículas de sedimento (se força trativa insuficiente) */}
+            {statusFluxo === 'sedimentacao' && (
+              <>
+                <circle cx={startX + 80} cy={startY + tuboHeight - 5} r="2" fill="#8B5CF6" />
+                <circle cx={startX + 100} cy={startY + tuboHeight - 3} r="1.5" fill="#8B5CF6" />
+                <circle cx={startX + 150} cy={(startY + endY)/2 + tuboHeight - 4} r="2" fill="#8B5CF6" />
+                <circle cx={startX + 170} cy={(startY + endY)/2 + tuboHeight - 2} r="1" fill="#8B5CF6" />
+                <circle cx={startX + 220} cy={endY + tuboHeight - 3} r="1.5" fill="#8B5CF6" />
+              </>
             )}
-
-            {/* Flow direction arrow */}
+            
+            {/* Dimensões e anotações */}
+            {/* Diâmetro */}
             <g>
-              <path 
-                d={`M ${startX + 50} ${startCenterY - 25} L ${startX + 80} ${endCenterY - 25} L ${startX + 75} ${endCenterY - 30} M ${startX + 80} ${endCenterY - 25} L ${startX + 75} ${endCenterY - 20}`}
-                stroke="#059669" 
-                strokeWidth="2" 
-                fill="none"
+              <line
+                x1={startX - 20}
+                y1={startY}
+                x2={startX - 20}
+                y2={startY + tuboHeight}
+                stroke="#6B7280"
+                strokeWidth="1"
               />
-              <text 
-                x={startX + 65} 
-                y={startCenterY - 30} 
-                fontSize="9" 
-                fill="#059669" 
+              <text
+                x={startX - 35}
+                y={(startY + startY + tuboHeight) / 2}
                 textAnchor="middle"
+                className="text-xs font-medium fill-gray-700"
+                transform={`rotate(-90, ${startX - 35}, ${(startY + startY + tuboHeight) / 2})`}
               >
-                {t('visualization.profile.flow')}
+                Ø {diametro}mm
               </text>
             </g>
-
-            {/* Information text */}
-            <text 
-              x={viewBoxWidth / 2} 
-              y={viewBoxHeight - 10} 
-              textAnchor="middle" 
-              fontSize="10" 
-              fill="#4b5563"
+            
+            {/* Declividade com escala exagerada */}
+            <g>
+              <text
+                x={startX + tuboLength / 2}
+                y={Math.min(startY, endY) - 15}
+                textAnchor="middle"
+                className="text-xs font-medium fill-gray-700"
+              >
+                i = {declividade.toFixed(4)} m/m
+              </text>
+              <text
+                x={startX + tuboLength / 2}
+                y={Math.min(startY, endY) - 5}
+                textAnchor="middle"
+                className="text-xs fill-gray-500"
+              >
+                ({t('visualization.profile.exaggeratedScale')} {fatorEscalaDeclividade}x)
+              </text>
+            </g>
+            
+            {/* Velocidade */}
+            <g>
+              <text
+                x={startX + tuboLength / 2}
+                y={Math.max(startY, endY) + tuboHeight + 25}
+                textAnchor="middle"
+                className="text-xs font-medium fill-blue-700"
+              >
+                V = {velocidade.toFixed(2)} m/s
+              </text>
+            </g>
+            
+            {/* Linha de referência do terreno */}
+            <text
+              x={svgWidth - 80}
+              y={svgHeight - 5}
+              className="text-xs fill-purple-600"
             >
-              {t('visualization.profile.depthLabel')} {(lamina * 100).toFixed(1)}% | {t('visualization.profile.slopeLabel')} {(declividade * 100).toFixed(3)}% | {t('visualization.profile.lengthLabel')} {pipeLength/4}m {t('visualization.profile.scaleNote')}
+              {t('visualization.profile.referenceLevel')}
+            </text>
+            
+            {/* Indicação da direção do fluxo */}
+            <text
+              x={endX + 10}
+              y={endY + tuboHeight/2}
+              className="text-xs fill-green-600 font-medium"
+            >
+              →
             </text>
           </svg>
         </div>
+        
+        {/* Status e legenda */}
+        <div className="mt-4">
+          <div className="flex justify-center mb-3">
+            <div className={`px-3 py-1 rounded text-sm font-medium ${
+              statusFluxo === 'normal' 
+                ? 'bg-green-100 text-green-800' 
+                : 'bg-red-100 text-red-800'
+            }`}>
+              {statusFluxo === 'normal' 
+                ? t('visualization.profile.normalFlow')
+                : t('visualization.profile.sedimentationRisk')}
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="flex items-center gap-2">
+              <div className={`w-4 h-4 rounded ${
+                statusFluxo === 'normal' ? 'bg-blue-500' : 'bg-red-500'
+              } bg-opacity-70`}></div>
+              <span>{t('visualization.profile.wastewater')}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-gray-700 rounded"></div>
+              <span>{t('visualization.profile.pipe')}</span>
+            </div>
+            {statusFluxo === 'normal' ? (
+              <div className="flex items-center gap-2">
+                <div className="w-0 h-0 border-l-4 border-r-4 border-b-4 border-l-transparent border-r-transparent border-b-green-500"></div>
+                <span>{t('visualization.profile.flowDirection')}</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                <span>{t('visualization.profile.sediments')}</span>
+              </div>
+            )}
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-1 bg-purple-600" style={{borderStyle: 'dashed'}}></div>
+              <span>{t('visualization.profile.reference')}</span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Informações do fluxo */}
+        <div className="mt-4 p-3 bg-gray-50 rounded text-sm">
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <span className="font-medium">{t('visualization.profile.tractiveForce')}:</span> {forcaTraativa.toFixed(2)} Pa
+            </div>
+            <div>
+              <span className="font-medium">{t('visualization.profile.minimum')}:</span> {forcaTrativaMin} Pa
+            </div>
+            <div>
+              <span className="font-medium">{t('visualization.profile.velocity')}:</span> {velocidade.toFixed(2)} m/s
+            </div>
+            <div>
+              <span className="font-medium">{t('visualization.profile.depthLabel')}:</span> {(laminaLiquida * 100).toFixed(1)}%
+            </div>
+          </div>
+          
+          {statusFluxo === 'sedimentacao' && (
+            <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded text-red-700">
+              <strong>{t('visualization.profile.warning')}:</strong> {t('visualization.profile.warningMessage')}
+            </div>
+          )}
+        </div>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default VisualizacaoPerfilRede; 
+export default VisualizacaoPerfilRede

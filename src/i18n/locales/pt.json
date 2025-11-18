@@ -59,17 +59,37 @@
   "visualization": {
     "section": {
       "title": "Seção da Tubulação",
-      "description": "Visualização da área molhada"
+      "description": "Visualização da área molhada",
+      "wettedArea": "Área molhada",
+      "waterSurface": "Superfície da água",
+      "diameter": "Diâmetro",
+      "wettedHeight": "Altura molhada (y)",
+      "depthLabel": "Lâmina:",
+      "exceedsCriteria": "Excede critério!"
     },
     "profile": {
       "title": "Perfil da Rede",
       "description": "Vista longitudinal com declividade",
       "ground": "Superfície do terreno",
       "flow": "Fluxo",
-      "depthLabel": "Lâmina:",
+      "depthLabel": "Lâmina",
       "slopeLabel": "Declividade:",
       "lengthLabel": "L =",
-      "scaleNote": "(escala aproximada)"
+      "scaleNote": "(escala aproximada)",
+      "exaggeratedScale": "escala exagerada",
+      "referenceLevel": "Nível de referência",
+      "normalFlow": "Fluxo Normal - Autolimpeza OK",
+      "sedimentationRisk": "Risco de Sedimentação",
+      "wastewater": "Esgoto",
+      "pipe": "Tubulação",
+      "flowDirection": "Direção do fluxo",
+      "sediments": "Sedimentos",
+      "reference": "Referência",
+      "tractiveForce": "Força trativa",
+      "minimum": "Mínimo",
+      "velocity": "Velocidade",
+      "warning": "Atenção",
+      "warningMessage": "Força trativa insuficiente pode causar acúmulo de sedimentos e obstrução da rede."
     }
   },
   "status": {
