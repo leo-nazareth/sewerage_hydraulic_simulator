@@ -137,12 +137,43 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
             {statusFluxo === 'sedimentacao' && alturaAguaRelativa > 0 && (
               <>
                 {/* Sedimentos depositados no fundo do tubo, dentro da área de água */}
-                <circle cx={startX + 80} cy={startY + tuboHeight - 3} r="2" fill="#8B5CF6" />
-                <circle cx={startX + 120} cy={startY + tuboHeight - 5} r="1.5" fill="#8B5CF6" />
-                <circle cx={startX + 150} cy={(startY + endY)/2 + tuboHeight - 4} r="2" fill="#8B5CF6" />
-                <circle cx={startX + 180} cy={(startY + endY)/2 + tuboHeight - 3} r="1.5" fill="#8B5CF6" />
-                <circle cx={startX + 220} cy={endY + tuboHeight - 5} r="2" fill="#8B5CF6" />
-                <circle cx={startX + 250} cy={endY + tuboHeight - 4} r="1.5" fill="#8B5CF6" />
+                {/* Calcular Y interpolado para cada posição X ao longo do tubo inclinado */}
+                <circle 
+                  cx={startX + 80} 
+                  cy={startY + (endY - startY) * (80 / tuboLength) + tuboHeight - 3} 
+                  r="2" 
+                  fill="#8B5CF6" 
+                />
+                <circle 
+                  cx={startX + 120} 
+                  cy={startY + (endY - startY) * (120 / tuboLength) + tuboHeight - 5} 
+                  r="1.5" 
+                  fill="#8B5CF6" 
+                />
+                <circle 
+                  cx={startX + 160} 
+                  cy={startY + (endY - startY) * (160 / tuboLength) + tuboHeight - 4} 
+                  r="2" 
+                  fill="#8B5CF6" 
+                />
+                <circle 
+                  cx={startX + 200} 
+                  cy={startY + (endY - startY) * (200 / tuboLength) + tuboHeight - 3} 
+                  r="1.5" 
+                  fill="#8B5CF6" 
+                />
+                <circle 
+                  cx={startX + 240} 
+                  cy={startY + (endY - startY) * (240 / tuboLength) + tuboHeight - 5} 
+                  r="2" 
+                  fill="#8B5CF6" 
+                />
+                <circle 
+                  cx={startX + 270} 
+                  cy={startY + (endY - startY) * (270 / tuboLength) + tuboHeight - 4} 
+                  r="1.5" 
+                  fill="#8B5CF6" 
+                />
               </>
             )}
             
