@@ -145,13 +145,15 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
             )}
             
             {/* Partículas de sedimento (se força trativa insuficiente) */}
-            {statusFluxo === 'sedimentacao' && (
+            {statusFluxo === 'sedimentacao' && alturaAguaRelativa > 0 && (
               <>
-                <circle cx={startX + 80} cy={startY + tuboHeight - 5} r="2" fill="#8B5CF6" />
-                <circle cx={startX + 100} cy={startY + tuboHeight - 3} r="1.5" fill="#8B5CF6" />
-                <circle cx={startX + 150} cy={(startY + endY)/2 + tuboHeight - 4} r="2" fill="#8B5CF6" />
-                <circle cx={startX + 170} cy={(startY + endY)/2 + tuboHeight - 2} r="1" fill="#8B5CF6" />
-                <circle cx={startX + 220} cy={endY + tuboHeight - 3} r="1.5" fill="#8B5CF6" />
+                {/* Sedimentos no fundo da área com água */}
+                <circle cx={startX + 80} cy={startY + tuboHeight - alturaAguaPixels * 0.1} r="2" fill="#8B5CF6" />
+                <circle cx={startX + 120} cy={startY + tuboHeight - alturaAguaPixels * 0.15} r="1.5" fill="#8B5CF6" />
+                <circle cx={startX + 150} cy={(startY + endY)/2 + tuboHeight - alturaAguaPixels * 0.2} r="2" fill="#8B5CF6" />
+                <circle cx={startX + 180} cy={(startY + endY)/2 + tuboHeight - alturaAguaPixels * 0.1} r="1.5" fill="#8B5CF6" />
+                <circle cx={startX + 220} cy={endY + tuboHeight - alturaAguaPixels * 0.15} r="2" fill="#8B5CF6" />
+                <circle cx={startX + 250} cy={endY + tuboHeight - alturaAguaPixels * 0.1} r="1.5" fill="#8B5CF6" />
               </>
             )}
             
