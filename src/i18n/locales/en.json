@@ -63,7 +63,7 @@
       "wettedArea": "Wetted area",
       "waterSurface": "Water surface",
       "diameter": "Diameter",
-      "wettedHeight": "Wetted height (y)",
+      "wettedHeight": "Flow depth (y)",
       "depthLabel": "Depth:",
       "exceedsCriteria": "Exceeds criteria!"
     },

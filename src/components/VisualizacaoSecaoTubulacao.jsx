@@ -199,14 +199,6 @@ const VisualizacaoSecaoTubulacao = ({ resultados, parametros }) => {
             <span>{t('visualization.section.wettedArea')}</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-1 bg-blue-700" style={{borderStyle: 'dashed'}}></div>
-            <span>{t('visualization.section.waterSurface')}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-1 bg-gray-500" style={{borderStyle: 'dashed'}}></div>
-            <span>{t('visualization.section.diameter')}</span>
-          </div>
-          <div className="flex items-center gap-2">
             <div className="w-4 h-1 bg-red-500"></div>
             <span>{t('visualization.section.wettedHeight')}</span>
           </div>
