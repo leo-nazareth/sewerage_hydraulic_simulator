@@ -5,11 +5,12 @@ import { Input } from '@/components/ui/input.jsx'
 import { Label } from '@/components/ui/label.jsx'
 import { Separator } from '@/components/ui/separator.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
-import { AlertCircle, CheckCircle, Calculator, Droplets, Settings } from 'lucide-react'
+import { AlertCircle, CheckCircle, Calculator, Settings } from 'lucide-react'
 import VisualizacaoSecaoTubulacao from '@/components/VisualizacaoSecaoTubulacao.jsx'
 import VisualizacaoPerfilRede from '@/components/VisualizacaoPerfilRede.jsx'
 import { CalculosHidraulicos } from '@/lib/calculos_hidraulicos.js'
 import LanguageSelector from '@/components/LanguageSelector.jsx'
+import SewerIcon from '@/components/SewerIcon.jsx'
 import { useLanguage } from '@/i18n/LanguageProvider'
 
 
@@ -77,7 +78,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-emerald-50 to-cyan-50 p-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -85,31 +86,31 @@ function App() {
             <LanguageSelector />
           </div>
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-3">
-              <Droplets className="w-10 h-10 text-blue-600" />
+            <h1 className="text-4xl font-bold text-gray-800 mb-2 flex items-center justify-center gap-3">
+              <SewerIcon className="w-10 h-10 text-teal-600" />
               {t('app.title')}
             </h1>
-            <p className="text-lg text-gray-600">{t('app.subtitle')}</p>
+            <p className="text-lg text-gray-700">{t('app.subtitle')}</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Painel de Parâmetros */}
           <div className="lg:col-span-1">
-            <Card className="h-fit">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Settings className="w-5 h-5" />
+            <Card className="h-fit shadow-md border-teal-100">
+              <CardHeader className="bg-gradient-to-r from-teal-50 to-emerald-50">
+                <CardTitle className="flex items-center gap-2 text-teal-800">
+                  <Settings className="w-5 h-5 text-teal-600" />
                   {t('parameters.title')}
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-gray-600">
                   {t('parameters.description')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 {/* Parâmetros de Consumo */}
                 <div>
-                  <h3 className="font-semibold text-sm text-gray-700 mb-3">{t('parameters.consumption.title')}</h3>
+                  <h3 className="font-semibold text-sm text-teal-700 mb-3">{t('parameters.consumption.title')}</h3>
                   <div className="space-y-3">
                     <div>
                       <Label htmlFor="consumoPerCapita">{t('parameters.consumption.perCapita')}</Label>
@@ -183,7 +184,7 @@ function App() {
 
                 {/* Parâmetros Hidráulicos */}
                 <div>
-                  <h3 className="font-semibold text-sm text-gray-700 mb-3">{t('parameters.hydraulic.title')}</h3>
+                  <h3 className="font-semibold text-sm text-teal-700 mb-3">{t('parameters.hydraulic.title')}</h3>
                   <div className="space-y-3">
                     <div>
                       <Label htmlFor="diametro">{t('parameters.hydraulic.diameter')}</Label>
@@ -224,7 +225,7 @@ function App() {
 
                 {/* Critérios de Verificação */}
                 <div>
-                  <h3 className="font-semibold text-sm text-gray-700 mb-3">{t('parameters.verification.title')}</h3>
+                  <h3 className="font-semibold text-sm text-teal-700 mb-3">{t('parameters.verification.title')}</h3>
                   <div className="space-y-3">
                     <div>
                       <Label htmlFor="laminaMaxima">{t('parameters.verification.maxDepth')}</Label>
@@ -281,10 +282,10 @@ function App() {
               </div>
 
               {/* Resultados dos Cálculos */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>{t('results.title')}</CardTitle>
-                  <CardDescription>
+              <Card className="shadow-md border-teal-100">
+                <CardHeader className="bg-gradient-to-r from-teal-50 to-emerald-50">
+                  <CardTitle className="text-teal-800">{t('results.title')}</CardTitle>
+                  <CardDescription className="text-gray-600">
                     {t('results.description')}
                   </CardDescription>
                 </CardHeader>
@@ -292,8 +293,8 @@ function App() {
                   {resultados && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Vazões */}
-                      <div className="space-y-3 p-4 border border-gray-200 rounded-lg bg-gray-50">
-                        <h4 className="font-semibold text-sm text-gray-700">{t('results.flows.title')}</h4>
+                      <div className="space-y-3 p-4 border border-teal-200 rounded-lg bg-teal-50/50">
+                        <h4 className="font-semibold text-sm text-teal-700">{t('results.flows.title')}</h4>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between">
                             <span>{t('results.flows.estimated')}</span>
@@ -307,8 +308,8 @@ function App() {
                       </div>
 
                       {/* Verificações Hidráulicas */}
-                      <div className="space-y-3 p-4 border border-gray-200 rounded-lg bg-gray-50">
-                        <h4 className="font-semibold text-sm text-gray-700">{t('results.verification.title')}</h4>
+                      <div className="space-y-3 p-4 border border-teal-200 rounded-lg bg-teal-50/50">
+                        <h4 className="font-semibold text-sm text-teal-700">{t('results.verification.title')}</h4>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between items-center">
                             <span>{t('results.verification.depth')}</span>
@@ -340,8 +341,8 @@ function App() {
                       </div>
 
                       {/* Elementos Geométricos */}
-                      <div className="space-y-3 p-4 border border-gray-200 rounded-lg bg-gray-50">
-                        <h4 className="font-semibold text-sm text-gray-700">{t('results.geometric.title')}</h4>
+                      <div className="space-y-3 p-4 border border-teal-200 rounded-lg bg-teal-50/50">
+                        <h4 className="font-semibold text-sm text-teal-700">{t('results.geometric.title')}</h4>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between">
                             <span>{t('results.geometric.area')}</span>
@@ -363,8 +364,8 @@ function App() {
                       </div>
 
                       {/* Parâmetros Técnicos */}
-                      <div className="space-y-3 p-4 border border-gray-200 rounded-lg bg-gray-50">
-                        <h4 className="font-semibold text-sm text-gray-700">{t('results.technical.title')}</h4>
+                      <div className="space-y-3 p-4 border border-teal-200 rounded-lg bg-teal-50/50">
+                        <h4 className="font-semibold text-sm text-teal-700">{t('results.technical.title')}</h4>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between">
                             <span>{t('results.technical.angle')}</span>
@@ -386,10 +387,10 @@ function App() {
               </Card>
 
               {/* Status Geral */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Calculator className="w-5 h-5" />
+              <Card className="shadow-md border-teal-100">
+                <CardHeader className="bg-gradient-to-r from-teal-50 to-emerald-50">
+                  <CardTitle className="flex items-center gap-2 text-teal-800">
+                    <Calculator className="w-5 h-5 text-teal-600" />
                     {t('status.title')}
                   </CardTitle>
                 </CardHeader>
@@ -409,6 +410,11 @@ function App() {
             </div>
           </div>
         </div>
+        
+        {/* Footer com crédito */}
+        <footer className="mt-8 text-center text-xs text-gray-600">
+          <p>Sewer icon by Vecteezy</p>
+        </footer>
       </div>
     </div>
   )

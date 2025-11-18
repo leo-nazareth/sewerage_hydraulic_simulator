@@ -74,10 +74,10 @@ const VisualizacaoSecaoTubulacao = ({ resultados, parametros }) => {
   const larguraSuperficie = calcularLarguraSuperficie()
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{t('visualization.section.title')}</CardTitle>
-        <CardDescription>{t('visualization.section.description')}</CardDescription>
+    <Card className="shadow-md border-teal-100">
+      <CardHeader className="bg-gradient-to-r from-teal-50 to-emerald-50">
+        <CardTitle className="text-teal-800">{t('visualization.section.title')}</CardTitle>
+        <CardDescription className="text-gray-600">{t('visualization.section.description')}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex justify-center">
@@ -275,9 +275,9 @@ const VisualizacaoSecaoTubulacao = ({ resultados, parametros }) => {
         </div>
         
         {/* Informações simplificadas */}
-        <div className="mt-4 p-3 bg-gray-50 rounded text-sm">
+        <div className="mt-4 p-3 bg-teal-50/50 rounded text-sm border border-teal-100">
           <div className="flex justify-center">
-            <div className={`font-medium ${laminaExcedeCriterio ? 'text-red-600' : 'text-blue-600'}`}>
+            <div className={`font-medium ${laminaExcedeCriterio ? 'text-red-600' : 'text-teal-700'}`}>
               {t('visualization.section.depthLabel')} {(laminaLiquida * 100).toFixed(1)}%
               {laminaExcedeCriterio && (
                 <span className="ml-2 text-red-600 font-bold">⚠ {t('visualization.section.exceedsCriteria')}</span>
