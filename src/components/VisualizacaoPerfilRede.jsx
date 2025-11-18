@@ -38,10 +38,10 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
   const statusFluxo = forcaTraativa >= forcaTrativaMin ? 'normal' : 'sedimentacao'
 
   return (
-    <Card className="shadow-md border-teal-100">
-      <CardHeader className="bg-gradient-to-r from-teal-50 to-emerald-50">
-        <CardTitle className="text-teal-800">{t('visualization.profile.title')}</CardTitle>
-        <CardDescription className="text-gray-600">{t('visualization.profile.description')}</CardDescription>
+    <Card className="shadow-md border-gray-200">
+      <CardHeader style={{ backgroundColor: '#0c4688' }}>
+        <CardTitle className="text-white">{t('visualization.profile.title')}</CardTitle>
+        <CardDescription className="text-gray-200">{t('visualization.profile.description')}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex justify-center">
@@ -276,19 +276,19 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
         </div>
         
         {/* Informações do fluxo */}
-        <div className="mt-4 p-3 bg-teal-50/50 rounded text-sm border border-teal-100">
+        <div className="mt-4 p-3 bg-gray-50 rounded text-sm border border-gray-200">
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <span className="font-medium text-teal-700">{t('visualization.profile.tractiveForce')}:</span> {forcaTraativa.toFixed(2)} Pa
+              <span className="font-medium text-gray-700">{t('visualization.profile.tractiveForce')}:</span> {forcaTraativa.toFixed(2)} Pa
             </div>
             <div>
-              <span className="font-medium text-teal-700">{t('visualization.profile.minimum')}:</span> {forcaTrativaMin} Pa
+              <span className="font-medium text-gray-700">{t('visualization.profile.minimum')}:</span> {forcaTrativaMin} Pa
             </div>
             <div>
-              <span className="font-medium text-teal-700">{t('visualization.profile.velocity')}:</span> {velocidade.toFixed(2)} m/s
+              <span className="font-medium text-gray-700">{t('visualization.profile.velocity')}:</span> {velocidade.toFixed(2)} m/s
             </div>
             <div>
-              <span className="font-medium text-teal-700">{t('visualization.profile.depthLabel')}:</span> {(laminaLiquida * 100).toFixed(1)}%
+              <span className="font-medium text-gray-700">{t('visualization.profile.depthLabel')}:</span> {(laminaLiquida * 100).toFixed(1)}%
             </div>
           </div>
           
