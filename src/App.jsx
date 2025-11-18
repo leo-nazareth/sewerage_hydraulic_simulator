@@ -9,6 +9,7 @@ import { AlertCircle, CheckCircle, Calculator, Droplets, Settings } from 'lucide
 import VisualizacaoSecaoTubulacao from '@/components/VisualizacaoSecaoTubulacao.jsx'
 import VisualizacaoPerfilRede from '@/components/VisualizacaoPerfilRede.jsx'
 import { CalculosHidraulicos } from '@/lib/calculos_hidraulicos.js'
+import LanguageSelector from '@/components/LanguageSelector.jsx'
 
 
 function App() {
@@ -69,12 +70,17 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-3">
-            <Droplets className="w-10 h-10 text-blue-600" />
-            Simulador de Cálculos Hidráulicos
-          </h1>
-          <p className="text-lg text-gray-600">Redes de Esgoto - Sistema Condominial</p>
+        <div className="mb-8">
+          <div className="flex justify-end mb-4">
+            <LanguageSelector />
+          </div>
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-3">
+              <Droplets className="w-10 h-10 text-blue-600" />
+              Simulador de Cálculos Hidráulicos
+            </h1>
+            <p className="text-lg text-gray-600">Redes de Esgoto - Sistema Condominial</p>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
