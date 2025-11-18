@@ -129,16 +129,16 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
               <g>
                 {/* Corpo da seta */}
                 <line
-                  x1={startX + 180}
+                  x1={startX + 130}
                   y1={(startY + endY) / 2 + tuboHeight / 2}
-                  x2={startX + 220}
+                  x2={startX + 170}
                   y2={(startY + endY) / 2 + tuboHeight / 2}
                   stroke="#000000"
                   strokeWidth="2"
                 />
-                {/* Cabeça da seta */}
+                {/* Cabeça da seta apontando para esquerda */}
                 <polygon
-                  points={`${startX + 220},${(startY + endY) / 2 + tuboHeight / 2 - 4} ${startX + 228},${(startY + endY) / 2 + tuboHeight / 2} ${startX + 220},${(startY + endY) / 2 + tuboHeight / 2 + 4}`}
+                  points={`${startX + 130},${(startY + endY) / 2 + tuboHeight / 2 - 4} ${startX + 122},${(startY + endY) / 2 + tuboHeight / 2} ${startX + 130},${(startY + endY) / 2 + tuboHeight / 2 + 4}`}
                   fill="#000000"
                 />
               </g>
