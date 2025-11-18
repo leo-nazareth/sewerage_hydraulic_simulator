@@ -39,11 +39,11 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
 
   return (
     <Card className="shadow-md border-gray-200">
-      <CardHeader style={{ backgroundColor: '#0c4688' }}>
+      <CardHeader style={{ backgroundColor: '#0c4688', borderTopLeftRadius: '0.5rem', borderTopRightRadius: '0.5rem' }}>
         <CardTitle className="text-white">{t('visualization.profile.title')}</CardTitle>
         <CardDescription className="text-gray-200">{t('visualization.profile.description')}</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-6">
         <div className="flex justify-center">
           <svg width={svgWidth} height={svgHeight} className="border border-gray-200 rounded">
             {/* Tubulação (contorno superior) */}

@@ -98,7 +98,7 @@ function App() {
           {/* Painel de Parâmetros */}
           <div className="lg:col-span-1">
             <Card className="h-fit shadow-md border-gray-200">
-              <CardHeader style={{ backgroundColor: '#0c4688' }}>
+              <CardHeader style={{ backgroundColor: '#0c4688', borderTopLeftRadius: '0.5rem', borderTopRightRadius: '0.5rem' }}>
                 <CardTitle className="flex items-center gap-2 text-white">
                   <Settings className="w-5 h-5 text-white" />
                   {t('parameters.title')}
@@ -107,10 +107,10 @@ function App() {
                   {t('parameters.description')}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-6 pt-6">
                 {/* Parâmetros de Consumo */}
                 <div>
-                  <h3 className="font-semibold text-sm mb-3" style={{ color: '#89c9b4' }}>{t('parameters.consumption.title')}</h3>
+                  <h3 className="font-semibold text-sm mb-3 text-gray-700">{t('parameters.consumption.title')}</h3>
                   <div className="space-y-3">
                     <div>
                       <Label htmlFor="consumoPerCapita">{t('parameters.consumption.perCapita')}</Label>
@@ -184,7 +184,7 @@ function App() {
 
                 {/* Parâmetros Hidráulicos */}
                 <div>
-                  <h3 className="font-semibold text-sm mb-3" style={{ color: '#89c9b4' }}>{t('parameters.hydraulic.title')}</h3>
+                  <h3 className="font-semibold text-sm mb-3 text-gray-700">{t('parameters.hydraulic.title')}</h3>
                   <div className="space-y-3">
                     <div>
                       <Label htmlFor="diametro">{t('parameters.hydraulic.diameter')}</Label>
@@ -225,7 +225,7 @@ function App() {
 
                 {/* Critérios de Verificação */}
                 <div>
-                  <h3 className="font-semibold text-sm mb-3" style={{ color: '#89c9b4' }}>{t('parameters.verification.title')}</h3>
+                  <h3 className="font-semibold text-sm mb-3 text-gray-700">{t('parameters.verification.title')}</h3>
                   <div className="space-y-3">
                     <div>
                       <Label htmlFor="laminaMaxima">{t('parameters.verification.maxDepth')}</Label>
@@ -283,13 +283,13 @@ function App() {
 
               {/* Resultados dos Cálculos */}
               <Card className="shadow-md border-gray-200">
-                <CardHeader style={{ backgroundColor: '#0c4688' }}>
+                <CardHeader style={{ backgroundColor: '#0c4688', borderTopLeftRadius: '0.5rem', borderTopRightRadius: '0.5rem' }}>
                   <CardTitle className="text-white">{t('results.title')}</CardTitle>
                   <CardDescription className="text-gray-200">
                     {t('results.description')}
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="pt-6">
                   {resultados && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Vazões */}
@@ -388,13 +388,13 @@ function App() {
 
               {/* Status Geral */}
               <Card className="shadow-md border-gray-200">
-                <CardHeader style={{ backgroundColor: '#0c4688' }}>
+                <CardHeader style={{ backgroundColor: '#0c4688', borderTopLeftRadius: '0.5rem', borderTopRightRadius: '0.5rem' }}>
                   <CardTitle className="flex items-center gap-2 text-white">
                     <Calculator className="w-5 h-5 text-white" />
                     {t('status.title')}
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="pt-6">
                   {resultados && (
                     <div className="flex items-center justify-center">
                       <Badge 
