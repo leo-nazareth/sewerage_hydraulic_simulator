@@ -1,6 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 const VisualizacaoSecaoTubulacao = ({ resultados, parametros }) => {
+  const { t } = useLanguage();
   const diametro = parametros?.diametro || 150;
   const lamina = resultados?.resultados?.laminaLiquida || 0;
   const alturaMolhada = resultados?.resultados?.alturaMolhada * 1000 || 0; // em mm
@@ -69,8 +71,8 @@ const VisualizacaoSecaoTubulacao = ({ resultados, parametros }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Seção da Tubulação</CardTitle>
-        <CardDescription>Visualização da área molhada</CardDescription>
+        <CardTitle>{t('visualization.section.title')}</CardTitle>
+        <CardDescription>{t('visualization.section.description')}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="aspect-square w-full">
