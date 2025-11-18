@@ -7,8 +7,11 @@ const VisualizacaoSecaoTubulacao = ({ resultados, parametros }) => {
   
   if (!resultados) return null
 
-  const { laminaLiquida } = resultados.resultados
-  const { diametro, laminaMaxima } = parametros
+  const { laminaLiquida, forcaTraativa } = resultados.resultados
+  const { diametro, laminaMaxima, forcaTrativaMin } = parametros
+  
+  // Verificar se há risco de sedimentação
+  const temSedimentacao = forcaTraativa < forcaTrativaMin
 
   // Configurações do SVG
   const svgSize = 300
@@ -111,6 +114,28 @@ const VisualizacaoSecaoTubulacao = ({ resultados, parametros }) => {
                 strokeWidth="2"
                 strokeDasharray="5,5"
               />
+            )}
+            
+            {/* Partículas de sedimento (se força trativa insuficiente) */}
+            {temSedimentacao && alturaAguaRelativa > 0 && (
+              <>
+                {/* Sedimentos concentrados no centro (ponto mais baixo) */}
+                <circle cx={center} cy={center + radius - 3} r="2.5" fill="#8B5CF6" />
+                <circle cx={center - 5} cy={center + radius - 4} r="2" fill="#8B5CF6" />
+                <circle cx={center + 5} cy={center + radius - 4} r="2" fill="#8B5CF6" />
+                <circle cx={center - 3} cy={center + radius - 7} r="1.5" fill="#8B5CF6" />
+                <circle cx={center + 3} cy={center + radius - 7} r="1.5" fill="#8B5CF6" />
+                
+                {/* Sedimentos espalhados nas laterais (dentro da área molhada) */}
+                {larguraSuperficie > 20 && (
+                  <>
+                    <circle cx={center - larguraSuperficie / 4} cy={center + radius - 5} r="1.5" fill="#8B5CF6" />
+                    <circle cx={center + larguraSuperficie / 4} cy={center + radius - 5} r="1.5" fill="#8B5CF6" />
+                    <circle cx={center - larguraSuperficie / 3} cy={center + radius - 8} r="1" fill="#8B5CF6" />
+                    <circle cx={center + larguraSuperficie / 3} cy={center + radius - 8} r="1" fill="#8B5CF6" />
+                  </>
+                )}
+              </>
             )}
             
             {/* Linha do diâmetro */}
