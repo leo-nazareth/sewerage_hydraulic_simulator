@@ -1,6 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
+  const { t } = useLanguage();
   const declividade = parametros?.declividade || 0.005;
   const diametro = parametros?.diametro || 150;
   const lamina = resultados?.resultados?.laminaLiquida || 0;
@@ -32,8 +34,8 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Perfil da Rede</CardTitle>
-        <CardDescription>Vista longitudinal com declividade</CardDescription>
+        <CardTitle>{t('visualization.profile.title')}</CardTitle>
+        <CardDescription>{t('visualization.profile.description')}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="aspect-video w-full">
@@ -64,7 +66,7 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
               strokeDasharray="5,5"
             />
             <text x="10" y={startCenterY - pipeRadius - 20} fontSize="10" fill="#92400e">
-              Superfície do terreno
+              {t('visualization.profile.ground')}
             </text>
 
             {/* Pipe outline - top */}
@@ -227,7 +229,7 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
                 fill="#059669" 
                 textAnchor="middle"
               >
-                Fluxo
+                {t('visualization.profile.flow')}
               </text>
             </g>
 
@@ -239,7 +241,7 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
               fontSize="10" 
               fill="#4b5563"
             >
-              Lâmina: {(lamina * 100).toFixed(1)}% | Declividade: {(declividade * 100).toFixed(3)}% | L = {pipeLength/4}m (escala aproximada)
+              {t('visualization.profile.depthLabel')} {(lamina * 100).toFixed(1)}% | {t('visualization.profile.slopeLabel')} {(declividade * 100).toFixed(3)}% | {t('visualization.profile.lengthLabel')} {pipeLength/4}m {t('visualization.profile.scaleNote')}
             </text>
           </svg>
         </div>
