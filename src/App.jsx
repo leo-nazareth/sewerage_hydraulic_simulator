@@ -292,7 +292,7 @@ function App() {
                   {resultados && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Vazões */}
-                      <div className="space-y-3">
+                      <div className="space-y-3 p-4 border border-gray-200 rounded-lg bg-gray-50">
                         <h4 className="font-semibold text-sm text-gray-700">{t('results.flows.title')}</h4>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between">
@@ -307,7 +307,7 @@ function App() {
                       </div>
 
                       {/* Verificações Hidráulicas */}
-                      <div className="space-y-3">
+                      <div className="space-y-3 p-4 border border-gray-200 rounded-lg bg-gray-50">
                         <h4 className="font-semibold text-sm text-gray-700">{t('results.verification.title')}</h4>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between items-center">
@@ -340,7 +340,7 @@ function App() {
                       </div>
 
                       {/* Elementos Geométricos */}
-                      <div className="space-y-3">
+                      <div className="space-y-3 p-4 border border-gray-200 rounded-lg bg-gray-50">
                         <h4 className="font-semibold text-sm text-gray-700">{t('results.geometric.title')}</h4>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between">
@@ -363,7 +363,7 @@ function App() {
                       </div>
 
                       {/* Parâmetros Técnicos */}
-                      <div className="space-y-3">
+                      <div className="space-y-3 p-4 border border-gray-200 rounded-lg bg-gray-50">
                         <h4 className="font-semibold text-sm text-gray-700">{t('results.technical.title')}</h4>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between">

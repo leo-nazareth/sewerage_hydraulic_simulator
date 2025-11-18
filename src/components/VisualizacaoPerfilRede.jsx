@@ -254,9 +254,7 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
           
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div className="flex items-center gap-2">
-              <div className={`w-4 h-4 rounded ${
-                statusFluxo === 'normal' ? 'bg-blue-500' : 'bg-red-500'
-              } bg-opacity-70`}></div>
+              <div className="w-4 h-4 rounded bg-blue-500 bg-opacity-70"></div>
               <span>{t('visualization.profile.wastewater')}</span>
             </div>
             {statusFluxo === 'normal' ? (
