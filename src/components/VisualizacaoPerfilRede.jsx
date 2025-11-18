@@ -46,17 +46,6 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
       <CardContent>
         <div className="flex justify-center">
           <svg width={svgWidth} height={svgHeight} className="border border-gray-200 rounded">
-            {/* Linha do terreno/referência */}
-            <line
-              x1={0}
-              y1={svgHeight - 20}
-              x2={svgWidth}
-              y2={svgHeight - 20}
-              stroke="#8B5CF6"
-              strokeWidth="2"
-              strokeDasharray="5,5"
-            />
-            
             {/* Tubulação (contorno superior) */}
             <line
               x1={startX}
@@ -147,13 +136,13 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
             {/* Partículas de sedimento (se força trativa insuficiente) */}
             {statusFluxo === 'sedimentacao' && alturaAguaRelativa > 0 && (
               <>
-                {/* Sedimentos no fundo da área com água */}
-                <circle cx={startX + 80} cy={startY + tuboHeight - alturaAguaPixels * 0.1} r="2" fill="#8B5CF6" />
-                <circle cx={startX + 120} cy={startY + tuboHeight - alturaAguaPixels * 0.15} r="1.5" fill="#8B5CF6" />
-                <circle cx={startX + 150} cy={(startY + endY)/2 + tuboHeight - alturaAguaPixels * 0.2} r="2" fill="#8B5CF6" />
-                <circle cx={startX + 180} cy={(startY + endY)/2 + tuboHeight - alturaAguaPixels * 0.1} r="1.5" fill="#8B5CF6" />
-                <circle cx={startX + 220} cy={endY + tuboHeight - alturaAguaPixels * 0.15} r="2" fill="#8B5CF6" />
-                <circle cx={startX + 250} cy={endY + tuboHeight - alturaAguaPixels * 0.1} r="1.5" fill="#8B5CF6" />
+                {/* Sedimentos depositados no fundo do tubo, dentro da área de água */}
+                <circle cx={startX + 80} cy={startY + tuboHeight - 3} r="2" fill="#8B5CF6" />
+                <circle cx={startX + 120} cy={startY + tuboHeight - 5} r="1.5" fill="#8B5CF6" />
+                <circle cx={startX + 150} cy={(startY + endY)/2 + tuboHeight - 4} r="2" fill="#8B5CF6" />
+                <circle cx={startX + 180} cy={(startY + endY)/2 + tuboHeight - 3} r="1.5" fill="#8B5CF6" />
+                <circle cx={startX + 220} cy={endY + tuboHeight - 5} r="2" fill="#8B5CF6" />
+                <circle cx={startX + 250} cy={endY + tuboHeight - 4} r="1.5" fill="#8B5CF6" />
               </>
             )}
             
@@ -210,15 +199,6 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
                 V = {velocidade.toFixed(2)} m/s
               </text>
             </g>
-            
-            {/* Linha de referência do terreno */}
-            <text
-              x={svgWidth - 80}
-              y={svgHeight - 5}
-              className="text-xs fill-purple-600"
-            >
-              {t('visualization.profile.referenceLevel')}
-            </text>
             
             {/* Indicação da direção do fluxo */}
             <text
