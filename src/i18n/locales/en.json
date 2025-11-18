@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "Hydraulic Calculations Simulator",
-    "subtitle": "Sewer Networks - Condominial System"
+    "subtitle": "Sewer Networks"
   },
   "parameters": {
     "title": "Input Parameters",

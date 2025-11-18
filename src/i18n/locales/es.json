@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "Simulador de Cálculos Hidráulicos",
-    "subtitle": "Redes de Alcantarillado - Sistema Condominial"
+    "subtitle": "Redes de Alcantarillado"
   },
   "parameters": {
     "title": "Parámetros de Entrada",

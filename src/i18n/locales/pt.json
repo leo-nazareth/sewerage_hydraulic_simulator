@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "Simulador de Cálculos Hidráulicos",
-    "subtitle": "Redes de Esgoto - Sistema Condominial"
+    "subtitle": "Redes de Esgoto"
   },
   "parameters": {
     "title": "Parâmetros de Entrada",
