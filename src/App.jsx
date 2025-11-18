@@ -306,29 +306,6 @@ function App() {
                         </div>
                       </div>
 
-                      {/* Elementos Geométricos */}
-                      <div className="space-y-3">
-                        <h4 className="font-semibold text-sm text-gray-700">{t('results.geometric.title')}</h4>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex justify-between">
-                            <span>{t('results.geometric.area')}</span>
-                            <span className="font-mono">{resultados.resultados.areaHidraulica.toFixed(6)} m²</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>{t('results.geometric.perimeter')}</span>
-                            <span className="font-mono">{resultados.resultados.perimetroMolhado.toFixed(4)} m</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>{t('results.geometric.radius')}</span>
-                            <span className="font-mono">{resultados.resultados.raioHidraulico.toFixed(4)} m</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>{t('results.geometric.height')}</span>
-                            <span className="font-mono">{resultados.resultados.alturaMolhada.toFixed(4)} m</span>
-                          </div>
-                        </div>
-                      </div>
-
                       {/* Verificações Hidráulicas */}
                       <div className="space-y-3">
                         <h4 className="font-semibold text-sm text-gray-700">{t('results.verification.title')}</h4>
@@ -358,6 +335,29 @@ function App() {
                           <div className="flex justify-between">
                             <span>{t('results.verification.velocity')}</span>
                             <span className="font-mono">{resultados.resultados.velocidade.toFixed(2)} m/s</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Elementos Geométricos */}
+                      <div className="space-y-3">
+                        <h4 className="font-semibold text-sm text-gray-700">{t('results.geometric.title')}</h4>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span>{t('results.geometric.area')}</span>
+                            <span className="font-mono">{resultados.resultados.areaHidraulica.toFixed(6)} m²</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>{t('results.geometric.perimeter')}</span>
+                            <span className="font-mono">{resultados.resultados.perimetroMolhado.toFixed(4)} m</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>{t('results.geometric.radius')}</span>
+                            <span className="font-mono">{resultados.resultados.raioHidraulico.toFixed(4)} m</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>{t('results.geometric.height')}</span>
+                            <span className="font-mono">{resultados.resultados.alturaMolhada.toFixed(4)} m</span>
                           </div>
                         </div>
                       </div>

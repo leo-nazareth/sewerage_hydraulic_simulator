@@ -33,8 +33,8 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
   const alturaAguaRelativa = laminaLiquida
   const alturaAguaPixels = tuboHeight * alturaAguaRelativa
   
-  // Determinar cor baseada na força trativa
-  const corAgua = forcaTraativa >= forcaTrativaMin ? '#3B82F6' : '#EF4444'
+  // Determinar status do fluxo (mas manter cor azul sempre)
+  const corAgua = '#3B82F6' // Sempre azul
   const statusFluxo = forcaTraativa >= forcaTrativaMin ? 'normal' : 'sedimentacao'
 
   return (
