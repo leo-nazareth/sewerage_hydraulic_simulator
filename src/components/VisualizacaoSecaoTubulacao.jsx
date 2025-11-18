@@ -118,56 +118,66 @@ const VisualizacaoSecaoTubulacao = ({ resultados, parametros }) => {
             
             {/* Partículas de sedimento (se força trativa insuficiente) */}
             {temSedimentacao && alturaAguaRelativa > 0 && (() => {
-              // Calcular a largura máxima da água no fundo (onde y = center + radius)
-              // Usar a equação do círculo: x² + y² = r²
-              // No fundo: y_offset = 0, então largura máxima = 2 * sqrt(r² - 0²) = 2r
-              // Mas precisamos considerar apenas a parte com água
-              
               const alturaAguaPixels = alturaAguaRelativa * (radius * 2);
               const ySuperficie = center + radius - alturaAguaPixels;
               
-              // Para cada altura y dentro da água, calcular a largura disponível no círculo
-              const calcularLarguraNoY = (yOffset) => {
-                const y = center + radius - yOffset;
-                if (y < ySuperficie) return 0; // Acima da superfície da água
-                const distanciaDoFundo = radius - yOffset;
-                if (distanciaDoFundo < 0) return 0;
-                return Math.sqrt(Math.max(0, radius * radius - distanciaDoFundo * distanciaDoFundo));
+              // Verificar se um ponto (x, y) está dentro da área molhada
+              const estaDentroAreaMolhada = (x, y) => {
+                // Verificar se está abaixo da superfície da água
+                if (y < ySuperficie) return false;
+                
+                // Verificar se está dentro do círculo
+                const dx = x - center;
+                const dy = y - center;
+                const distanciaDoCenter = Math.sqrt(dx * dx + dy * dy);
+                return distanciaDoCenter <= radius;
               };
               
+              // Lista de sedimentos com suas posições
+              const sedimentos = [
+                { x: center, y: center + radius - 3, r: 2.5 },
+                { x: center - 7, y: center + radius - 4, r: 2 },
+                { x: center + 4, y: center + radius - 3.5, r: 2 },
+                { x: center - 3, y: center + radius - 6, r: 1.8 },
+                { x: center + 6, y: center + radius - 5, r: 1.5 },
+                { x: center - 10, y: center + radius - 5, r: 1.5 },
+                { x: center + 9, y: center + radius - 7, r: 1.3 },
+                { x: center - 5, y: center + radius - 8, r: 1.5 },
+                { x: center + 2, y: center + radius - 9, r: 1.2 },
+                { x: center - 8, y: center + radius - 7, r: 1.4 },
+                { x: center + 11, y: center + radius - 6, r: 1.3 },
+                { x: center - 2, y: center + radius - 10, r: 1 },
+              ];
+              
+              // Sedimentos adicionais se houver água suficiente
+              if (alturaAguaRelativa > 0.15) {
+                sedimentos.push(
+                  { x: center - 15, y: center + radius - 10, r: 1.2 },
+                  { x: center + 13, y: center + radius - 11, r: 1 }
+                );
+              }
+              
+              if (alturaAguaRelativa > 0.2) {
+                sedimentos.push(
+                  { x: center - 18, y: center + radius - 13, r: 1 },
+                  { x: center + 16, y: center + radius - 14, r: 0.9 },
+                  { x: center - 12, y: center + radius - 12, r: 1.1 }
+                );
+              }
+              
+              // Renderizar apenas sedimentos que estão dentro da área molhada
               return (
                 <>
-                  {/* Sedimentos concentrados no centro (ponto mais baixo) - distribuição assimétrica */}
-                  <circle cx={center} cy={center + radius - 3} r="2.5" fill="#8B5CF6" />
-                  <circle cx={center - 7} cy={center + radius - 4} r="2" fill="#8B5CF6" />
-                  <circle cx={center + 4} cy={center + radius - 3.5} r="2" fill="#8B5CF6" />
-                  <circle cx={center - 3} cy={center + radius - 6} r="1.8" fill="#8B5CF6" />
-                  <circle cx={center + 6} cy={center + radius - 5} r="1.5" fill="#8B5CF6" />
-                  <circle cx={center - 10} cy={center + radius - 5} r="1.5" fill="#8B5CF6" />
-                  <circle cx={center + 9} cy={center + radius - 7} r="1.3" fill="#8B5CF6" />
-                  <circle cx={center - 5} cy={center + radius - 8} r="1.5" fill="#8B5CF6" />
-                  <circle cx={center + 2} cy={center + radius - 9} r="1.2" fill="#8B5CF6" />
-                  <circle cx={center - 8} cy={center + radius - 7} r="1.4" fill="#8B5CF6" />
-                  <circle cx={center + 11} cy={center + radius - 6} r="1.3" fill="#8B5CF6" />
-                  <circle cx={center - 2} cy={center + radius - 10} r="1" fill="#8B5CF6" />
-                  
-                  {/* Sedimentos mais espalhados (se houver água suficiente) */}
-                  {alturaAguaRelativa > 0.15 && (
-                    <>
-                      {calcularLarguraNoY(10) > 15 && (
-                        <>
-                          <circle cx={center - 15} cy={center + radius - 10} r="1.2" fill="#8B5CF6" />
-                          <circle cx={center + 13} cy={center + radius - 11} r="1" fill="#8B5CF6" />
-                        </>
-                      )}
-                      {calcularLarguraNoY(15) > 20 && (
-                        <>
-                          <circle cx={center - 18} cy={center + radius - 13} r="1" fill="#8B5CF6" />
-                          <circle cx={center + 16} cy={center + radius - 14} r="0.9" fill="#8B5CF6" />
-                          <circle cx={center - 12} cy={center + radius - 12} r="1.1" fill="#8B5CF6" />
-                        </>
-                      )}
-                    </>
+                  {sedimentos.map((sed, idx) => 
+                    estaDentroAreaMolhada(sed.x, sed.y) && (
+                      <circle 
+                        key={idx}
+                        cx={sed.x} 
+                        cy={sed.y} 
+                        r={sed.r} 
+                        fill="#8B5CF6" 
+                      />
+                    )
                   )}
                 </>
               );

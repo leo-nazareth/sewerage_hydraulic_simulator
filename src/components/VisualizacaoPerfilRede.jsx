@@ -134,48 +134,44 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
             )}
             
             {/* Partículas de sedimento (se força trativa insuficiente) */}
-            {statusFluxo === 'sedimentacao' && alturaAguaRelativa > 0 && (
-              <>
-                {/* Sedimentos depositados no fundo do tubo, dentro da área de água */}
-                {/* Calcular Y interpolado para cada posição X ao longo do tubo inclinado */}
-                <circle 
-                  cx={startX + 80} 
-                  cy={startY + (endY - startY) * (80 / tuboLength) + tuboHeight - 3} 
-                  r="2" 
-                  fill="#8B5CF6" 
-                />
-                <circle 
-                  cx={startX + 120} 
-                  cy={startY + (endY - startY) * (120 / tuboLength) + tuboHeight - 5} 
-                  r="1.5" 
-                  fill="#8B5CF6" 
-                />
-                <circle 
-                  cx={startX + 160} 
-                  cy={startY + (endY - startY) * (160 / tuboLength) + tuboHeight - 4} 
-                  r="2" 
-                  fill="#8B5CF6" 
-                />
-                <circle 
-                  cx={startX + 200} 
-                  cy={startY + (endY - startY) * (200 / tuboLength) + tuboHeight - 3} 
-                  r="1.5" 
-                  fill="#8B5CF6" 
-                />
-                <circle 
-                  cx={startX + 240} 
-                  cy={startY + (endY - startY) * (240 / tuboLength) + tuboHeight - 5} 
-                  r="2" 
-                  fill="#8B5CF6" 
-                />
-                <circle 
-                  cx={startX + 270} 
-                  cy={startY + (endY - startY) * (270 / tuboLength) + tuboHeight - 4} 
-                  r="1.5" 
-                  fill="#8B5CF6" 
-                />
-              </>
-            )}
+            {statusFluxo === 'sedimentacao' && alturaAguaRelativa > 0 && (() => {
+              // Lista de sedimentos com posições X relativas e offsets Y
+              const sedimentos = [
+                { xOffset: 80, yOffset: 3, r: 2 },
+                { xOffset: 120, yOffset: 5, r: 1.5 },
+                { xOffset: 160, yOffset: 4, r: 2 },
+                { xOffset: 200, yOffset: 3, r: 1.5 },
+                { xOffset: 240, yOffset: 5, r: 2 },
+                { xOffset: 270, yOffset: 4, r: 1.5 },
+              ];
+              
+              return (
+                <>
+                  {sedimentos.map((sed, idx) => {
+                    // Calcular Y interpolado para a posição X ao longo do tubo inclinado
+                    const yFundoTubo = startY + (endY - startY) * (sed.xOffset / tuboLength) + tuboHeight;
+                    const ySedimento = yFundoTubo - sed.yOffset;
+                    
+                    // Calcular Y da superfície da água nesta posição X
+                    const ySuperficieAgua = startY + (endY - startY) * (sed.xOffset / tuboLength) + tuboHeight - alturaAguaPixels;
+                    
+                    // Verificar se o sedimento está dentro da área de água
+                    // (abaixo da superfície e acima do fundo - offset)
+                    const estaDentroAgua = ySedimento >= ySuperficieAgua && ySedimento <= yFundoTubo;
+                    
+                    return estaDentroAgua && (
+                      <circle 
+                        key={idx}
+                        cx={startX + sed.xOffset} 
+                        cy={ySedimento} 
+                        r={sed.r} 
+                        fill="#8B5CF6" 
+                      />
+                    );
+                  })}
+                </>
+              );
+            })()}
             
             {/* Dimensões e anotações */}
             {/* Diâmetro */}
