@@ -113,25 +113,23 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
               />
             )}
             
-            {/* Seta indicando direção do fluxo */}
-            {statusFluxo === 'normal' && (
-              <g>
-                {/* Corpo da seta */}
-                <line
-                  x1={startX + 130}
-                  y1={(startY + endY) / 2 + tuboHeight / 2}
-                  x2={startX + 170}
-                  y2={(startY + endY) / 2 + tuboHeight / 2}
-                  stroke="#000000"
-                  strokeWidth="2"
-                />
-                {/* Cabeça da seta apontando para esquerda */}
-                <polygon
-                  points={`${startX + 130},${(startY + endY) / 2 + tuboHeight / 2 - 4} ${startX + 122},${(startY + endY) / 2 + tuboHeight / 2} ${startX + 130},${(startY + endY) / 2 + tuboHeight / 2 + 4}`}
-                  fill="#000000"
-                />
-              </g>
-            )}
+            {/* Seta indicando direção do fluxo - sempre visível */}
+            <g>
+              {/* Corpo da seta */}
+              <line
+                x1={startX + 130}
+                y1={(startY + endY) / 2 + tuboHeight / 2}
+                x2={startX + 170}
+                y2={(startY + endY) / 2 + tuboHeight / 2}
+                stroke="#000000"
+                strokeWidth="2"
+              />
+              {/* Cabeça da seta apontando para esquerda */}
+              <polygon
+                points={`${startX + 130},${(startY + endY) / 2 + tuboHeight / 2 - 4} ${startX + 122},${(startY + endY) / 2 + tuboHeight / 2} ${startX + 130},${(startY + endY) / 2 + tuboHeight / 2 + 4}`}
+                fill="#000000"
+              />
+            </g>
             
             {/* Partículas de sedimento (se força trativa insuficiente) */}
             {statusFluxo === 'sedimentacao' && alturaAguaRelativa > 0 && (() => {
@@ -257,22 +255,21 @@ const VisualizacaoPerfilRede = ({ resultados, parametros }) => {
               <div className="w-4 h-4 rounded bg-blue-500 bg-opacity-70"></div>
               <span>{t('visualization.profile.wastewater')}</span>
             </div>
-            {statusFluxo === 'normal' ? (
-              <div className="flex items-center gap-2">
-                {/* Seta preta com corpo */}
-                <svg width="20" height="12" viewBox="0 0 20 12">
-                  <line x1="0" y1="6" x2="14" y2="6" stroke="#000000" strokeWidth="2" />
-                  <polygon points="14,3 20,6 14,9" fill="#000000" />
-                </svg>
-                <span>{t('visualization.profile.flowDirection')}</span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                <span>{t('visualization.profile.sediments')}</span>
-              </div>
-            )}
+            <div className="flex items-center gap-2">
+              {/* Seta preta com corpo */}
+              <svg width="20" height="12" viewBox="0 0 20 12">
+                <line x1="0" y1="6" x2="14" y2="6" stroke="#000000" strokeWidth="2" />
+                <polygon points="14,3 20,6 14,9" fill="#000000" />
+              </svg>
+              <span>{t('visualization.profile.flowDirection')}</span>
+            </div>
           </div>
+          {statusFluxo === 'sedimentacao' && (
+            <div className="mt-3 flex items-center gap-2 text-sm">
+              <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+              <span>{t('visualization.profile.sediments')}</span>
+            </div>
+          )}
         </div>
         
         {/* Informações do fluxo */}
