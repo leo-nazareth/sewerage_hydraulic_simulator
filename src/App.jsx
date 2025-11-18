@@ -10,9 +10,11 @@ import VisualizacaoSecaoTubulacao from '@/components/VisualizacaoSecaoTubulacao.
 import VisualizacaoPerfilRede from '@/components/VisualizacaoPerfilRede.jsx'
 import { CalculosHidraulicos } from '@/lib/calculos_hidraulicos.js'
 import LanguageSelector from '@/components/LanguageSelector.jsx'
+import { useLanguage } from '@/i18n/LanguageProvider'
 
 
 function App() {
+  const { t } = useLanguage();
   // Estado para os parâmetros de entrada
   const [parametros, setParametros] = useState({
     consumoPerCapita: 200,
@@ -77,9 +79,9 @@ function App() {
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-3">
               <Droplets className="w-10 h-10 text-blue-600" />
-              Simulador de Cálculos Hidráulicos
+              {t('app.title')}
             </h1>
-            <p className="text-lg text-gray-600">Redes de Esgoto - Sistema Condominial</p>
+            <p className="text-lg text-gray-600">{t('app.subtitle')}</p>
           </div>
         </div>
 
@@ -90,19 +92,19 @@ function App() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Settings className="w-5 h-5" />
-                  Parâmetros de Entrada
+                  {t('parameters.title')}
                 </CardTitle>
                 <CardDescription>
-                  Configure os parâmetros para o cálculo hidráulico
+                  {t('parameters.description')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 {/* Parâmetros de Consumo */}
                 <div>
-                  <h3 className="font-semibold text-sm text-gray-700 mb-3">Parâmetros de Consumo</h3>
+                  <h3 className="font-semibold text-sm text-gray-700 mb-3">{t('parameters.consumption.title')}</h3>
                   <div className="space-y-3">
                     <div>
-                      <Label htmlFor="consumoPerCapita">Consumo per capita (l/hab/dia)</Label>
+                      <Label htmlFor="consumoPerCapita">{t('parameters.consumption.perCapita')}</Label>
                       <Input
                         id="consumoPerCapita"
                         type="number"
@@ -112,7 +114,7 @@ function App() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="taxaOcupacao">Taxa de ocupação (hab/casa)</Label>
+                      <Label htmlFor="taxaOcupacao">{t('parameters.consumption.occupancyRate')}</Label>
                       <Input
                         id="taxaOcupacao"
                         type="number"
@@ -122,7 +124,7 @@ function App() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="coefRetorno">Coeficiente de retorno (C)</Label>
+                      <Label htmlFor="coefRetorno">{t('parameters.consumption.returnCoefficient')}</Label>
                       <Input
                         id="coefRetorno"
                         type="number"
@@ -134,7 +136,7 @@ function App() {
                     </div>
                     <div className="grid grid-cols-2 gap-2">
                       <div>
-                        <Label htmlFor="k1">K1 (máx. diário)</Label>
+                        <Label htmlFor="k1">{t('parameters.consumption.k1')}</Label>
                         <Input
                           id="k1"
                           type="number"
@@ -145,7 +147,7 @@ function App() {
                         />
                       </div>
                       <div>
-                        <Label htmlFor="k2">K2 (máx. horário)</Label>
+                        <Label htmlFor="k2">{t('parameters.consumption.k2')}</Label>
                         <Input
                           id="k2"
                           type="number"
@@ -157,7 +159,7 @@ function App() {
                       </div>
                     </div>
                     <div>
-                      <Label htmlFor="qtdeResidencias">Quantidade de residências</Label>
+                      <Label htmlFor="qtdeResidencias">{t('parameters.consumption.residences')}</Label>
                       <Input
                         id="qtdeResidencias"
                         type="number"
@@ -173,10 +175,10 @@ function App() {
 
                 {/* Parâmetros Hidráulicos */}
                 <div>
-                  <h3 className="font-semibold text-sm text-gray-700 mb-3">Informações do Trecho</h3>
+                  <h3 className="font-semibold text-sm text-gray-700 mb-3">{t('parameters.hydraulic.title')}</h3>
                   <div className="space-y-3">
                     <div>
-                      <Label htmlFor="diametro">Diâmetro (mm)</Label>
+                      <Label htmlFor="diametro">{t('parameters.hydraulic.diameter')}</Label>
                       <Input
                         id="diametro"
                         type="number"
@@ -186,7 +188,7 @@ function App() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="declividade">Declividade (m/m)</Label>
+                      <Label htmlFor="declividade">{t('parameters.hydraulic.slope')}</Label>
                       <Input
                         id="declividade"
                         type="number"
@@ -197,7 +199,7 @@ function App() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="coefManning">Coef. Manning (n)</Label>
+                      <Label htmlFor="coefManning">{t('parameters.hydraulic.manning')}</Label>
                       <Input
                         id="coefManning"
                         type="number"
@@ -214,10 +216,10 @@ function App() {
 
                 {/* Critérios de Verificação */}
                 <div>
-                  <h3 className="font-semibold text-sm text-gray-700 mb-3">Critérios de Verificação</h3>
+                  <h3 className="font-semibold text-sm text-gray-700 mb-3">{t('parameters.verification.title')}</h3>
                   <div className="space-y-3">
                     <div>
-                      <Label htmlFor="laminaMaxima">Lâmina máxima (%)</Label>
+                      <Label htmlFor="laminaMaxima">{t('parameters.verification.maxDepth')}</Label>
                       <Input
                         id="laminaMaxima"
                         type="number"
@@ -228,7 +230,7 @@ function App() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="forcaTrativaMin">Força trativa mín. (Pa)</Label>
+                      <Label htmlFor="forcaTrativaMin">{t('parameters.verification.minTractive')}</Label>
                       <Input
                         id="forcaTrativaMin"
                         type="number"
@@ -239,7 +241,7 @@ function App() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="vazaoMinima">Vazão mínima (l/s)</Label>
+                      <Label htmlFor="vazaoMinima">{t('parameters.verification.minFlow')}</Label>
                       <Input
                         id="vazaoMinima"
                         type="number"
@@ -273,9 +275,9 @@ function App() {
               {/* Resultados dos Cálculos */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Resultados dos Cálculos</CardTitle>
+                  <CardTitle>{t('results.title')}</CardTitle>
                   <CardDescription>
-                    Valores calculados baseados nos parâmetros informados
+                    {t('results.description')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -283,14 +285,14 @@ function App() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Vazões */}
                       <div className="space-y-3">
-                        <h4 className="font-semibold text-sm text-gray-700">Vazões</h4>
+                        <h4 className="font-semibold text-sm text-gray-700">{t('results.flows.title')}</h4>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between">
-                            <span>Vazão calculada:</span>
+                            <span>{t('results.flows.estimated')}</span>
                             <span className="font-mono">{resultados.resultados.vazaoEstimada.toFixed(2)} l/s</span>
                           </div>
                           <div className="flex justify-between">
-                            <span>Vazão considerada:</span>
+                            <span>{t('results.flows.considered')}</span>
                             <span className="font-mono font-semibold">{resultados.resultados.vazaoCalculada.toFixed(2)} l/s</span>
                           </div>
                         </div>
@@ -298,22 +300,22 @@ function App() {
 
                       {/* Elementos Geométricos */}
                       <div className="space-y-3">
-                        <h4 className="font-semibold text-sm text-gray-700">Elementos Geométricos</h4>
+                        <h4 className="font-semibold text-sm text-gray-700">{t('results.geometric.title')}</h4>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between">
-                            <span>Área hidráulica:</span>
+                            <span>{t('results.geometric.area')}</span>
                             <span className="font-mono">{resultados.resultados.areaHidraulica.toFixed(6)} m²</span>
                           </div>
                           <div className="flex justify-between">
-                            <span>Perímetro molhado:</span>
+                            <span>{t('results.geometric.perimeter')}</span>
                             <span className="font-mono">{resultados.resultados.perimetroMolhado.toFixed(4)} m</span>
                           </div>
                           <div className="flex justify-between">
-                            <span>Raio hidráulico:</span>
+                            <span>{t('results.geometric.radius')}</span>
                             <span className="font-mono">{resultados.resultados.raioHidraulico.toFixed(4)} m</span>
                           </div>
                           <div className="flex justify-between">
-                            <span>Altura molhada:</span>
+                            <span>{t('results.geometric.height')}</span>
                             <span className="font-mono">{resultados.resultados.alturaMolhada.toFixed(4)} m</span>
                           </div>
                         </div>
@@ -321,10 +323,10 @@ function App() {
 
                       {/* Verificações Hidráulicas */}
                       <div className="space-y-3">
-                        <h4 className="font-semibold text-sm text-gray-700">Verificações Hidráulicas</h4>
+                        <h4 className="font-semibold text-sm text-gray-700">{t('results.verification.title')}</h4>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between items-center">
-                            <span>Lâmina líquida:</span>
+                            <span>{t('results.verification.depth')}</span>
                             <div className="flex items-center gap-2">
                               <span className="font-mono">{(resultados.resultados.laminaLiquida * 100).toFixed(1)}%</span>
                               {resultados.verificacoes.laminaOK ? (
@@ -335,7 +337,7 @@ function App() {
                             </div>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span>Força trativa:</span>
+                            <span>{t('results.verification.tractive')}</span>
                             <div className="flex items-center gap-2">
                               <span className="font-mono">{resultados.resultados.forcaTraativa.toFixed(2)} Pa</span>
                               {resultados.verificacoes.forcaTraativaOK ? (
@@ -346,7 +348,7 @@ function App() {
                             </div>
                           </div>
                           <div className="flex justify-between">
-                            <span>Velocidade:</span>
+                            <span>{t('results.verification.velocity')}</span>
                             <span className="font-mono">{resultados.resultados.velocidade.toFixed(2)} m/s</span>
                           </div>
                         </div>
@@ -354,18 +356,18 @@ function App() {
 
                       {/* Parâmetros Técnicos */}
                       <div className="space-y-3">
-                        <h4 className="font-semibold text-sm text-gray-700">Parâmetros Técnicos</h4>
+                        <h4 className="font-semibold text-sm text-gray-700">{t('results.technical.title')}</h4>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between">
-                            <span>Ângulo θ:</span>
+                            <span>{t('results.technical.angle')}</span>
                             <span className="font-mono">{resultados.resultados.anguloTeta.toFixed(4)} rad</span>
                           </div>
                           <div className="flex justify-between">
-                            <span>Diâmetro:</span>
+                            <span>{t('results.technical.diameter')}</span>
                             <span className="font-mono">{parametros.diametro} mm</span>
                           </div>
                           <div className="flex justify-between">
-                            <span>Declividade:</span>
+                            <span>{t('results.technical.slope')}</span>
                             <span className="font-mono">{parametros.declividade.toFixed(4)} m/m</span>
                           </div>
                         </div>
@@ -380,7 +382,7 @@ function App() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Calculator className="w-5 h-5" />
-                    Condições de escoamento
+                    {t('status.title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -390,7 +392,7 @@ function App() {
                         variant={resultados.verificacoes.sistemaOK ? "default" : "destructive"}
                         className="text-lg px-4 py-2"
                       >
-                        {resultados.verificacoes.sistemaOK ? "Sistema OK" : "Problema nas condições de escoamento"}
+                        {resultados.verificacoes.sistemaOK ? t('status.ok') : t('status.problem')}
                       </Badge>
                     </div>
                   )}
